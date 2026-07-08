@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte Ejecutivo — Mayo 2026</title>
+<style>
+:root{
+  --navy:#0D1F3C; --navy2:#1B3A6B; --dark:#1A1A2E; --gray:#4A5568;
+  --gold:#F5A623; --teal:#00A99D; --green:#1B7F4F; --green-bg:#D4EDDA;
+  --yellow-bg:#FFF3CD; --yellow-tx:#856404; --silver:#C0C0C0; --bronze:#CD7F32;
+  --blue-bg:#EBF3FB; --red:#B02A37; --red-bg:#F8D7DA; --bg:#F0F4FA;
+  --border:#D0D7E2; --white:#fff;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:'Segoe UI',Calibri,Arial,sans-serif; background:var(--bg); color:var(--dark);}
+
+/* TOP BAR */
+.topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%); color:#fff; padding:32px 44px 28px;}
+.topbar h1{font-size:1.9rem; font-weight:800; margin-bottom:6px;}
+.topbar p{color:#B0C4DE; font-size:0.92rem;}
+.top-kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:22px;}
+.top-kpi{background:rgba(255,255,255,0.1); border-radius:10px; padding:14px 18px;}
+.top-kpi .lbl{font-size:0.7rem; text-transform:uppercase; letter-spacing:.05em; opacity:.8; margin-bottom:5px;}
+.top-kpi .val{font-size:1.35rem; font-weight:800;}
+.top-kpi.gold{background:var(--gold); color:var(--dark);}
+.top-kpi.green{background:var(--green);}
+.top-kpi.red{background:var(--red);}
+.top-kpi.teal{background:var(--teal);}
+
+/* NAV */
+.nav-wrap{background:var(--navy); position:sticky; top:0; z-index:100; padding:0 32px; display:flex; gap:2px; overflow-x:auto;}
+.nav-btn{padding:12px 14px; color:#B0C4DE; cursor:pointer; font-size:0.78rem; font-weight:700;
+  border-bottom:3px solid transparent; white-space:nowrap; transition:all .15s; user-select:none;}
+.nav-btn:hover{color:#fff;}
+.nav-btn.active{color:#fff; border-bottom-color:var(--gold); background:rgba(255,255,255,0.07);}
+
+/* MAIN */
+.container{max-width:1240px; margin:0 auto; padding:28px 28px 80px;}
+.section{display:none;}
+.section.active{display:block; animation:fi .2s ease;}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+
+/* SUMMARY CARDS */
+.summary-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:22px;}
+@media(max-width:900px){.summary-grid{grid-template-columns:1fr;} .top-kpis{grid-template-columns:1fr 1fr;}}
+.s-card{background:#fff; border-radius:12px; padding:20px 22px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(20,30,60,.05);}
+.s-card h3{font-size:0.95rem; color:var(--navy2); margin-bottom:4px;}
+.s-card .sub{font-size:0.78rem; color:var(--gray); margin-bottom:14px;}
+
+/* OP CARD */
+.op-header{background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff; border-radius:14px;
+  padding:24px 28px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+.op-header h2{font-size:1.5rem; font-weight:800;}
+.op-header .op-kpis{display:flex; gap:14px; flex-wrap:wrap;}
+.op-kpi{background:rgba(255,255,255,0.12); border-radius:8px; padding:10px 16px; text-align:center; min-width:110px;}
+.op-kpi .k-lbl{font-size:0.65rem; text-transform:uppercase; letter-spacing:.05em; opacity:.8; margin-bottom:3px;}
+.op-kpi .k-val{font-size:1.1rem; font-weight:800;}
+.op-kpi.gold{background:var(--gold); color:var(--dark);}
+.op-kpi.red-kpi{background:var(--red);}
+.op-kpi.green-kpi{background:var(--green);}
+
+/* OPPORTUNITY BOXES */
+.opp-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:22px;}
+@media(max-width:1000px){.opp-grid{grid-template-columns:1fr;}}
+.opp-box{border-radius:10px; padding:16px 18px; border-left:5px solid;}
+.opp-box.green-box{background:var(--green-bg); border-color:var(--green);}
+.opp-box.red-box{background:var(--red-bg); border-color:var(--red);}
+.opp-box.blue-box{background:var(--blue-bg); border-color:var(--navy2);}
+.opp-box .opp-title{font-size:0.78rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700; margin-bottom:6px;}
+.opp-box.green-box .opp-title{color:var(--green);}
+.opp-box.red-box .opp-title{color:var(--red);}
+.opp-box.blue-box .opp-title{color:var(--navy2);}
+.opp-box .opp-val{font-size:1.5rem; font-weight:800; margin-bottom:4px;}
+.opp-box.green-box .opp-val{color:var(--green);}
+.opp-box.red-box .opp-val{color:var(--red);}
+.opp-box.blue-box .opp-val{color:var(--navy2);}
+.opp-box .opp-desc{font-size:0.82rem; color:var(--gray); line-height:1.5;}
+
+/* RECOM */
+.recom-box{background:#fff; border-radius:10px; padding:18px 20px; margin-bottom:18px; border:1px solid var(--border);}
+.recom-box h4{font-size:0.95rem; color:var(--navy2); margin-bottom:12px; display:flex; align-items:center; gap:8px;}
+.recom-item{display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; font-size:0.86rem; line-height:1.5;}
+.recom-item .badge{min-width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:0.72rem; font-weight:800; color:#fff; flex-shrink:0; margin-top:1px;}
+.badge.g{background:var(--green);}
+.badge.r{background:var(--red);}
+.badge.b{background:var(--navy2);}
+.badge.y{background:var(--gold); color:var(--dark);}
+
+/* TABLES */
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+.tbl-wrap{background:#fff; border-radius:10px; padding:16px 18px; border:1px solid var(--border);}
+.tbl-wrap h4{font-size:0.88rem; font-weight:700; margin-bottom:10px;}
+.tbl-wrap h4.green{color:var(--green);}
+.tbl-wrap h4.red{color:var(--red);}
+table{width:100%; border-collapse:collapse; font-size:0.8rem;}
+thead th{background:var(--navy); color:#fff; padding:7px 8px; text-align:center; font-size:0.72rem; text-transform:uppercase;}
+tbody td{padding:6px 8px; border-bottom:1px solid #EEF1F6; text-align:center;}
+tbody td.left{text-align:left;}
+tbody tr:nth-child(even){background:var(--blue-bg);}
+.pill{display:inline-block; padding:2px 8px; border-radius:14px; font-weight:700; font-size:0.74rem;}
+.pill.g{background:var(--green-bg); color:var(--green);}
+.pill.r{background:var(--red-bg); color:var(--red);}
+.pill.y{background:var(--yellow-bg); color:var(--yellow-tx);}
+.divider{height:1px; background:var(--border); margin:24px 0;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>📋 Reporte Ejecutivo de Oportunidades — Mayo 2026</h1>
+  <p>Análisis por cafetería · Productos esenciales · Productos a eliminar · Ahorro potencial por proveedores</p>
+  <div class="top-kpis" id="topKpis"></div>
+</div>
+
+<div class="nav-wrap" id="navWrap"></div>
+
+<div class="container" id="app"></div>
+
+<script id="rdata" type="application/json">
+{"ops": [{"op": "EAGLE", "emoji": "🦅", "ventas": 9026192.92, "num_prods": 172, "ess": [{"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 562.0, "Monto": 1601697.53, "PctIngreso": 0.1774499552797061}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 460.0, "Monto": 1310997.98, "PctIngreso": 0.14524373582744118}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 756.0, "Monto": 1247402.57, "PctIngreso": 0.13819808429266323}, {"Nombre Artículo": "CBO ALMUERZO DOS PROTEINA", "Categoría": "1COMBOS ALMUERZO SUBSIDIO", "Cant": 318.0, "Monto": 1113001.75, "PctIngreso": 0.12330799483953418}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 239.0, "Monto": 681148.95, "PctIngreso": 0.07546359312692377}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 201.0, "Monto": 572849.12, "PctIngreso": 0.06346519790538667}, {"Nombre Artículo": "1CBO DESAYUNO (SANDWICH)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 268.0, "Monto": 442200.91, "PctIngreso": 0.048990855161114816}], "ess_count": 7, "ess_monto": 6969298.8100000005, "ess_pct": 77.2, "elim": [{"Nombre Artículo": "POPI UNICORNIO", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "CUBIERTOS C50", "Categoría": "DESECHABLES", "Cant": 3.0, "Monto": 150.01}, {"Nombre Artículo": "CHOCOLATE MILAN", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 4.0, "Monto": 240.01}, {"Nombre Artículo": "EMPAQUE BIODEGR", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 3.0, "Monto": 300.02}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 6.0, "Monto": 300.02}, {"Nombre Artículo": "0FRIJOLES 120G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "0ARROZ BLANCO 200G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "3CHORIZO 80G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 410.0}, {"Nombre Artículo": "MADURO CON QUESO 70G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 425.0}, {"Nombre Artículo": "LECHE PORCION 1/4 VASO", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 449.99}, {"Nombre Artículo": "POPI BARRILETE", "Categoría": "CONFITES CHOCOLATES", "Cant": 3.0, "Monto": 449.99}, {"Nombre Artículo": "0GUARNICIONES VEG 120G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "PLATANOS VERDES LIMON 55G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 500.0}], "elim_count": 28, "elim_monto": 17570.03, "elim_pct": 0.19}, {"op": "TRIMPOT", "emoji": "☕", "ventas": 31159092.07, "num_prods": 309, "ess": [{"Nombre Artículo": "CBO ESPECIAL", "Categoría": "MENUS ESPECIALES", "Cant": 1490.0, "Monto": 4470004.62, "PctIngreso": 0.1434574733422263}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1238.0, "Monto": 3218793.07, "PctIngreso": 0.10330188898857731}, {"Nombre Artículo": "1CBO DESAYUNO AMERICANO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1380.0, "Monto": 2553002.9, "PctIngreso": 0.08193444450385745}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 772.0, "Monto": 2007195.66, "PctIngreso": 0.06441765554306794}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 731.0, "Monto": 1900595.9100000001, "PctIngreso": 0.060996511250399864}, {"Nombre Artículo": "CBO ESPECIAL REPOSTERO", "Categoría": "CAFÉ", "Cant": 594.0, "Monto": 1782001.84, "PctIngreso": 0.05719042891226323}, {"Nombre Artículo": "CBO DESAYUNO ARMA TU COMB", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 821.0, "Monto": 1186344.01, "PctIngreso": 0.038073766954917564}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 428.0, "Monto": 1112797.58, "PctIngreso": 0.0357134148036169}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 311.0, "Monto": 808598.27, "PctIngreso": 0.025950636436499995}, {"Nombre Artículo": "CBO POSTRE ESPECIAL", "Categoría": "CAFÉ", "Cant": 264.0, "Monto": 792000.8300000001, "PctIngreso": 0.02541796879770252}], "ess_count": 21, "ess_monto": 24896646.430000003, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "CBO ALMUERZO NUEVO INGRES", "Categoría": "ALMUERZO", "Cant": 80.0, "Monto": 0.0}, {"Nombre Artículo": "CBO DESAYUNO NUEVO INGRES", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 47.0, "Monto": 0.0}, {"Nombre Artículo": "HERSHEY BESITO", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 100.01}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "MAYONESA IND C50", "Categoría": "SANDWICH", "Cant": 3.0, "Monto": 150.01}, {"Nombre Artículo": "PALITOS QUESO 35G 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "PATACONES 3 UD 70G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "HASH BROWN", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "BOCADILLOS  C400", "Categoría": "REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "GUARNICIONES ESPEC", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "TOPPING ENSALADA", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "TACO PEQUENO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "TORTILLA PALM 120G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "GINGER ALE 355ML MINIDESE", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "AGUA COCINARTE 600ML", "Categoría": "FLORIDA", "Cant": 1.0, "Monto": 650.0}], "elim_count": 47, "elim_monto": 42124.95, "elim_pct": 0.14}, {"op": "INA URUCA", "emoji": "🏫", "ventas": 14768908.61, "num_prods": 201, "ess": [{"Nombre Artículo": "1GALLO PINTO 200G", "Categoría": "DESAYUNO", "Cant": 2471.0, "Monto": 1111949.75, "PctIngreso": 0.07528990661145407}, {"Nombre Artículo": "2PF 13 TROZO PESCADO C120", "Categoría": "ALMUERZO", "Cant": 759.0, "Monto": 948745.98, "PctIngreso": 0.06423941030805796}, {"Nombre Artículo": "2PF 10 TROZO POLLO", "Categoría": "ALMUERZO", "Cant": 730.0, "Monto": 912496.13, "PctIngreso": 0.06178493984194273}, {"Nombre Artículo": "2PF 11 TROZO RES", "Categoría": "ALMUERZO", "Cant": 725.0, "Monto": 906246.1599999999, "PctIngreso": 0.061361755558997935}, {"Nombre Artículo": "2PF 12 TROZO CERDO", "Categoría": "ALMUERZO", "Cant": 602.0, "Monto": 752496.81, "PctIngreso": 0.05095141624009278}, {"Nombre Artículo": "FOODTRUCK DEL DIA", "Categoría": "FOOD TRUCK", "Cant": 138.0, "Monto": 483000.76, "PctIngreso": 0.03270388982385341}, {"Nombre Artículo": "3EMBUTIDO SOLO 80G", "Categoría": "DESAYUNO", "Cant": 1125.0, "Monto": 449997.07999999996, "PctIngreso": 0.03046921691256914}, {"Nombre Artículo": "2HUEVO FRITO 1UD", "Categoría": "DESAYUNO", "Cant": 1480.0, "Monto": 444005.47, "PctIngreso": 0.03006352613620784}, {"Nombre Artículo": "EMPANADA 130G", "Categoría": "DESAYUNO", "Cant": 590.0, "Monto": 442502.13, "PctIngreso": 0.029961735270024128}, {"Nombre Artículo": "MADURO GUARNICION", "Categoría": "DESAYUNO", "Cant": 1196.0, "Monto": 418593.9, "PctIngreso": 0.028342913552635223}], "ess_count": 33, "ess_monto": 11798224.020000001, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 100.01}, {"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "LECHE PORCION 12OZ", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "BARRA FRUTTAL FRUTAS CITR", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "CHORREADA SOLA 120G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "JUEGO CUBERTERIA C100", "Categoría": "DESECHABLES", "Cant": 6.0, "Monto": 600.04}, {"Nombre Artículo": "F MANZANA PEQ", "Categoría": "FRUTAS Y BATIDOS", "Cant": 2.0, "Monto": 699.98}, {"Nombre Artículo": "BARRITA JACKS UVA C250", "Categoría": "XCLUSIVO PULPERIA", "Cant": 2.0, "Monto": 799.99}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 900.0}, {"Nombre Artículo": "HELADO MINISANDWICH VAINI", "Categoría": "DOS PINOS", "Cant": 2.0, "Monto": 900.0}, {"Nombre Artículo": "2PF 71 ESPECIAL 2 RICE&BE", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 950.0}, {"Nombre Artículo": "QUEQUE SECO C1000", "Categoría": "XCLUSIVO POSTRES", "Cant": 1.0, "Monto": 1000.0}, {"Nombre Artículo": "COCA COLA LIGHT 600ML DES", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 1050.0}, {"Nombre Artículo": "SANDWICH PAN CUADRADO PAV", "Categoría": "SANDWICH", "Cant": 1.0, "Monto": 1100.0}, {"Nombre Artículo": "GALLETA NUTRISNACKS CHOCO", "Categoría": "GALLETAS", "Cant": 2.0, "Monto": 1200.0}], "elim_count": 32, "elim_monto": 46958.909999999996, "elim_pct": 0.32}, {"op": "EATON", "emoji": "🏭", "ventas": 18549699.29, "num_prods": 217, "ess": [{"Nombre Artículo": "1CBO 72 ESPECIAL 2 CHIFRI", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 1749.0, "Monto": 6121509.619999999, "PctIngreso": 0.3300058682514631}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 2917.0, "Monto": 5104741.539999999, "PctIngreso": 0.2751926842691151}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 528.0, "Monto": 1452001.0, "PctIngreso": 0.07827625544219804}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 442.0, "Monto": 1215500.84, "PctIngreso": 0.0655267139912757}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 293.0, "Monto": 805750.56, "PctIngreso": 0.04343739202469842}], "ess_count": 5, "ess_monto": 14699503.559999999, "ess_pct": 79.2, "elim": [{"Nombre Artículo": "CBO DESAYUNO NUEVO INGRES", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1.0, "Monto": 0.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 50.0}, {"Nombre Artículo": "BURBUJA TRANSP #6 C200", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "BANDEJA BAGAZO BLANCA", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "ING FRUTA 40G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "BARRA CRIS CRISPAS 20G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "F TROZO PAPAYA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "EMPAQUES NEGRO ENSAL", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "F TROZO PINA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "NECTAR  MIXTO FRUTAS", "Categoría": "DOS PINOS", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "BOCADILLOS  C400", "Categoría": "REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "TOSTADA TIPO PIZZA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "HALLS FRUIT MIX", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 500.0}], "elim_count": 34, "elim_monto": 16549.95, "elim_pct": 0.09}, {"op": "AMAZON SJO05", "emoji": "📦", "ventas": 1465848.73, "num_prods": 101, "ess": [{"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 134.0, "Monto": 234499.61, "PctIngreso": 0.1599753134145022}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 56.0, "Monto": 196000.31, "PctIngreso": 0.13371114357755046}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 74.0, "Monto": 185000.05, "PctIngreso": 0.12620678124133586}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 51.0, "Monto": 127500.04, "PctIngreso": 0.08698035301364282}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 59.0, "Monto": 88499.76, "PctIngreso": 0.06037441530545924}, {"Nombre Artículo": "1CBO DESAYUNO (QUESO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 58.0, "Monto": 86999.76, "PctIngreso": 0.05935111735574516}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 28.0, "Monto": 70000.02, "PctIngreso": 0.04775391796396345}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 26.0, "Monto": 65000.02, "PctIngreso": 0.04434292479824981}, {"Nombre Artículo": "COCA COLA REGULAR 355ML L", "Categoría": "COCA COLA", "Cant": 48.0, "Monto": 47000.18, "PctIngreso": 0.032063458553462064}, {"Nombre Artículo": "0ENSALADA PEQ 130G", "Categoría": "ALMUERZO", "Cant": 55.0, "Monto": 32999.79, "PctIngreso": 0.022512411631996982}], "ess_count": 11, "ess_monto": 1165999.55, "ess_pct": 79.5, "elim": [{"Nombre Artículo": "SALSA PORCION 30G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 2.0, "Monto": 200.01}, {"Nombre Artículo": "GALLETA MANTEQUILLA 26G", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 325.0}, {"Nombre Artículo": "TOSTADA C QUES 40GR", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "3CHORIZO 80G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "PAPAS KITTY CREMA CEBOLLA", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "PAN BAGET RODAJA", "Categoría": "DESAYUNO", "Cant": 5.0, "Monto": 500.03}, {"Nombre Artículo": "HIC MANZANA 250ML", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "HIC UVA 250ML", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "GALLETA NUTRISNACKS CHOCO", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "GALLETA CREMITAS", "Categoría": "GALLETAS", "Cant": 2.0, "Monto": 650.0}, {"Nombre Artículo": "GALLETA NUTRISNACKS MANZA", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "TROPICAL TE MELOCOTON 350", "Categoría": "FLORIDA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "3SALCHICHA 1UD 40G", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 699.99}], "elim_count": 18, "elim_monto": 9325.03, "elim_pct": 0.64}, {"op": "AMAZON SJO10", "emoji": "📦", "ventas": 15190621.32, "num_prods": 229, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 629.0, "Monto": 2201503.46, "PctIngreso": 0.14492517545029554}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 788.0, "Monto": 1970000.5499999998, "PctIngreso": 0.12968531757198723}, {"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1057.0, "Monto": 1849746.94, "PctIngreso": 0.12176901135469816}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 430.0, "Monto": 1075000.31, "PctIngreso": 0.07076736937577745}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 593.0, "Monto": 889497.56, "PctIngreso": 0.05855570626521286}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 304.0, "Monto": 760000.21, "PctIngreso": 0.05003088379271112}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 294.0, "Monto": 735000.2000000001, "PctIngreso": 0.04838513083281837}, {"Nombre Artículo": "1CBO 22 VEGETARIANO COMPU", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 175.0, "Monto": 437500.11000000004, "PctIngreso": 0.028800672519167243}, {"Nombre Artículo": "COCA COLA ZERO 355ML LATA", "Categoría": "COCA COLA", "Cant": 309.0, "Monto": 297300.9, "PctIngreso": 0.01957134561761296}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 83.0, "Monto": 207500.05, "PctIngreso": 0.013659747394716834}], "ess_count": 23, "ess_monto": 12150696.68, "ess_pct": 80.0, "elim": [{"Nombre Artículo": "CBO DESAYUNO", "Categoría": "PERSONAL", "Cant": 46.0, "Monto": 0.0}, {"Nombre Artículo": "CBO1PERSONAL ALMUERZO", "Categoría": "PERSONAL", "Cant": 3.0, "Monto": 0.0}, {"Nombre Artículo": "TOCINETA", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 7.0, "Monto": 350.02}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "TOSTADA ITAL C 40G QSO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "TORTILLA TORTIRICA", "Categoría": "SANDWICH", "Cant": 4.0, "Monto": 500.0}, {"Nombre Artículo": "JUGO DEL VALLE MANZANA 33", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "PATACONES 3 UD 70G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "FANTA NARANJA 355ML MINID", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "LECHE DESCREMADA 250ML", "Categoría": "DOS PINOS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "CANGREJO ARREGLADO", "Categoría": "SANDWICH", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "PALITOS QUESO 35G 1UD", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 699.98}, {"Nombre Artículo": "PALITOS INTEGRALES DE QUE", "Categoría": "XCLUSIVO PULPERIA", "Cant": 1.0, "Monto": 700.0}], "elim_count": 35, "elim_monto": 31349.910000000003, "elim_pct": 0.21}, {"op": "AMAZON SJO11", "emoji": "📦", "ventas": 15624061.71, "num_prods": 186, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 711.0, "Monto": 2488503.91, "PctIngreso": 0.15927381472176738}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 826.0, "Monto": 2065000.58, "PctIngreso": 0.1321679738808456}, {"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 854.0, "Monto": 1494497.52, "PctIngreso": 0.09565358533136516}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 503.0, "Monto": 1257500.35, "PctIngreso": 0.08048485556064794}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 383.0, "Monto": 957500.27, "PctIngreso": 0.06128369740034776}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 296.0, "Monto": 740000.2, "PctIngreso": 0.047362856966084006}, {"Nombre Artículo": "1CBO 20 ARROZ COMPUESTO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 255.0, "Monto": 637500.1799999999, "PctIngreso": 0.0408024617306763}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 380.0, "Monto": 569998.44, "PctIngreso": 0.03648209092999031}, {"Nombre Artículo": "COCA COLA ZERO 355ML LATA", "Categoría": "COCA COLA", "Cant": 383.0, "Monto": 370701.22, "PctIngreso": 0.023726302857773336}, {"Nombre Artículo": "CBO DESAYUNO SIN CARBOS", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 234.0, "Monto": 350999.04, "PctIngreso": 0.022465287613101726}], "ess_count": 18, "ess_monto": 12488500.440000001, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "SALSA DE QUESO C125", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 125.0}, {"Nombre Artículo": "TOMATE UD 25G C50", "Categoría": "SANDWICH", "Cant": 2.0, "Monto": 150.0}, {"Nombre Artículo": "LECHE PORCION 1/4 VASO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "KRONCHITAS KITTY", "Categoría": "XCLUSIVO PULPERIA", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "HELADO MINISANDWICH VAINI", "Categoría": "DOS PINOS", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "CEREAL + LECHE", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "BISCOLITE PICANTE NUTRISN", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "F MANZANA VERDE", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "TORTILLA PALM 120G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "TORTA DE CARNE", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 799.99}, {"Nombre Artículo": "BOLSA PAPEL", "Categoría": "DESECHABLES", "Cant": 34.0, "Monto": 849.85}, {"Nombre Artículo": "TROPICAL TE VERDE MANZANA", "Categoría": "FLORIDA", "Cant": 1.0, "Monto": 900.0}, {"Nombre Artículo": "CHOCOLATE SNICKERS ALMEND", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 950.0}, {"Nombre Artículo": "2PF 71 ESPECIAL 2 RICE&BE", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 950.0}], "elim_count": 28, "elim_monto": 24874.940000000002, "elim_pct": 0.16}, {"op": "AMAZON SJO16", "emoji": "📦", "ventas": 10061982.129999999, "num_prods": 175, "ess": [{"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 949.0, "Monto": 1660747.25, "PctIngreso": 0.1650516994110384}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 359.0, "Monto": 897500.25, "PctIngreso": 0.08919716199098436}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 576.0, "Monto": 863997.64, "PctIngreso": 0.08586753870531869}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 246.0, "Monto": 861001.35, "PctIngreso": 0.08556975542949011}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 282.0, "Monto": 705000.2, "PctIngreso": 0.07006573763414146}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 242.0, "Monto": 605000.17, "PctIngreso": 0.06012733497072907}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 169.0, "Monto": 422500.12, "PctIngreso": 0.04198975058207542}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 97.0, "Monto": 242500.07, "PctIngreso": 0.024100626185469085}, {"Nombre Artículo": "1CBO 20 ARROZ COMPUESTO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 78.0, "Monto": 195000.05, "PctIngreso": 0.01937988434889021}, {"Nombre Artículo": "CBO DESAYUNO SIN CARBOS", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 122.0, "Monto": 182999.5, "PctIngreso": 0.01818722172586486}], "ess_count": 21, "ess_monto": 8028393.19, "ess_pct": 79.8, "elim": [{"Nombre Artículo": "BOLSA PAPEL", "Categoría": "DESECHABLES", "Cant": 7.0, "Monto": 174.97}, {"Nombre Artículo": "ENSALADA GOURMET FUSION", "Categoría": "XCLUSIVO ENSALADAS", "Cant": 1.0, "Monto": 290.0}, {"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "F MANZANA PEQ", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 6.0, "Monto": 300.02}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "TOSTADA TIPO PIZZA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "HALLS LIMON", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 6.0, "Monto": 600.03}, {"Nombre Artículo": "SORBETO FESTIVAL NARANJA", "Categoría": "GALLETAS", "Cant": 2.0, "Monto": 650.0}, {"Nombre Artículo": "PUPUSAS F/Q/CH ARREG C750", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 750.0}, {"Nombre Artículo": "2VASO 12ONZ CON TAPA", "Categoría": "DESECHABLES", "Cant": 4.0, "Monto": 799.99}, {"Nombre Artículo": "TUTTO", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 850.0}, {"Nombre Artículo": "PANIFICACION DULCE", "Categoría": "REPOSTERIA", "Cant": 1.0, "Monto": 850.0}], "elim_count": 27, "elim_monto": 21314.989999999998, "elim_pct": 0.21}, {"op": "AMAZON SJO19", "emoji": "📦", "ventas": 6494847.4, "num_prods": 163, "ess": [{"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 574.0, "Monto": 1004498.3400000001, "PctIngreso": 0.15466080696522602}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 177.0, "Monto": 619500.97, "PctIngreso": 0.09538345273516358}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 227.0, "Monto": 567500.16, "PctIngreso": 0.08737698132830651}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 173.0, "Monto": 432500.12, "PctIngreso": 0.06659126740991636}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 269.0, "Monto": 403498.9, "PctIngreso": 0.06212600160551887}, {"Nombre Artículo": "1CBO 14 COMPUESTO", "Categoría": "1COMBOS ALMUERZO SUBSIDIO", "Cant": 146.0, "Monto": 365000.1, "PctIngreso": 0.05619841045072129}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 114.0, "Monto": 285000.07999999996, "PctIngreso": 0.04388095092118715}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 111.0, "Monto": 277500.07999999996, "PctIngreso": 0.04272618937898371}, {"Nombre Artículo": "CBO DESAYUNO SIN CARBOS", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 156.0, "Monto": 233999.37, "PctIngreso": 0.03602846311677777}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 61.0, "Monto": 152500.04, "PctIngreso": 0.023480157516864834}], "ess_count": 18, "ess_monto": 5158247.740000001, "ess_pct": 79.4, "elim": [{"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "PAN BAGET RODAJA", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 200.01}, {"Nombre Artículo": "TORTILLA TORTIRICA", "Categoría": "SANDWICH", "Cant": 2.0, "Monto": 250.0}, {"Nombre Artículo": "GALLETA MARIA 21G", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 250.0}, {"Nombre Artículo": "F MANZANA PEQ", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "3SALCHICHA 1UD 40G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "2VASO 12ONZ CON TAPA", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "PAPAS TOSTADAS 30G SOFI", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 8.0, "Monto": 400.02}, {"Nombre Artículo": "QUESO FRITO 50G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "TOSTADA ITAL C QSO 40G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "ROSQUILLAS MAIZ QSO CHEDD", "Categoría": "XCLUSIVO PULPERIA", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "PRENSADA DE JAMON", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "ROSQUILLAS TRADIC MAIZ", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 550.0}], "elim_count": 25, "elim_monto": 11950.02, "elim_pct": 0.18}, {"op": "BAC COSTA RICA", "emoji": "🏦", "ventas": 17813765.85, "num_prods": 214, "ess": [{"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 2145.0, "Monto": 3860999.1399999997, "PctIngreso": 0.2167424435973486}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 588.0, "Monto": 2058003.23, "PctIngreso": 0.11552881335307323}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1088.0, "Monto": 1577605.12, "PctIngreso": 0.08856101137087753}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 664.0, "Monto": 1527201.33, "PctIngreso": 0.08573152599286017}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 467.0, "Monto": 1074100.94, "PctIngreso": 0.06029611868958072}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 356.0, "Monto": 818800.71, "PctIngreso": 0.04596449267912657}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 329.0, "Monto": 756700.66, "PctIngreso": 0.04247842182117825}, {"Nombre Artículo": "1ACOMPAÑAMIENTO ADICIONAL", "Categoría": "ALMUERZO", "Cant": 2173.0, "Monto": 651908.04, "PctIngreso": 0.0365957454189845}, {"Nombre Artículo": "0ENSALADA PEQ 130G", "Categoría": "ALMUERZO", "Cant": 482.0, "Monto": 289198.12, "PctIngreso": 0.016234530218662325}, {"Nombre Artículo": "1CBO DESAYUNO (QUESO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 194.0, "Monto": 281300.91, "PctIngreso": 0.015791209583009082}], "ess_count": 17, "ess_monto": 14170716.600000001, "ess_pct": 79.5, "elim": [{"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "TAJADA PAN CUADRADO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "GALLETA CHIKY CHOCOLATE 4", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 325.0}, {"Nombre Artículo": "FRUTA EXOTICA ADICIONAL", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "TOCINETA", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 4.0, "Monto": 400.02}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 8.0, "Monto": 400.03}, {"Nombre Artículo": "PAPAS OND VOLCAN CREMA Y", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "TORTILLA TORTIRICA", "Categoría": "SANDWICH", "Cant": 5.0, "Monto": 500.03}, {"Nombre Artículo": "TOPPING ENSALADA", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "TOSTADA C MANT", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 600.0}, {"Nombre Artículo": "2OMELLET 1 HUEVO C/TODO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "ING FRUTA 40G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 2.0, "Monto": 600.01}], "elim_count": 32, "elim_monto": 20800.089999999997, "elim_pct": 0.12}, {"op": "REGISTRO NACIONAL", "emoji": "🏛️", "ventas": 8519450.35, "num_prods": 209, "ess": [{"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 692.0, "Monto": 1280201.45, "PctIngreso": 0.15026808038150016}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 276.0, "Monto": 786598.79, "PctIngreso": 0.0923297581046411}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 275.0, "Monto": 783748.79, "PctIngreso": 0.09199522948097232}, {"Nombre Artículo": "1CBO 73 ESPECIAL 4 SOPA", "Categoría": "ALMUERZO", "Cant": 161.0, "Monto": 515200.29, "PctIngreso": 0.06047341892191436}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 175.0, "Monto": 498749.23, "PctIngreso": 0.05854241876061874}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 145.0, "Monto": 413249.36, "PctIngreso": 0.048506575309755745}, {"Nombre Artículo": "CBO ALMUERZO ECONOMICO", "Categoría": "1COMBOS ALMUERZO SUBSIDIO", "Cant": 160.0, "Monto": 359999.92, "PctIngreso": 0.042256237809989695}, {"Nombre Artículo": "1CBO 22 VEGETARIANO COMPU", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 54.0, "Monto": 153899.76, "PctIngreso": 0.018064517507282614}, {"Nombre Artículo": "1CBO 71 ESPECIAL 2 RICE &", "Categoría": "ALMUERZO", "Cant": 46.0, "Monto": 147200.08, "PctIngreso": 0.017278119356608487}, {"Nombre Artículo": "1GALLO PINTO 200G", "Categoría": "DESAYUNO", "Cant": 275.0, "Monto": 137500.66, "PctIngreso": 0.016139616330999567}], "ess_count": 30, "ess_monto": 6808896.430000002, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "1MADURO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 0.0}, {"Nombre Artículo": "TAJADA PAN BAGUETTE", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 100.01}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 3.0, "Monto": 150.01}, {"Nombre Artículo": "TOPPING FRUTAS", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "MIEL/JALEA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 300.02}, {"Nombre Artículo": "SORBETO FESTIVAL VAINILLA", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 325.0}, {"Nombre Artículo": "EMPAQUES NEGRO ENSAL", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "1QUESO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "GRANADILLA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "LECHE PORCION 12OZ", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "TRONADITAS CON LIMÓN 175G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 375.0}, {"Nombre Artículo": "PLATANOS MADUROS 45G GOLD", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "PLATANITOS MADUROS 50G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}], "elim_count": 32, "elim_monto": 15750.0, "elim_pct": 0.18}, {"op": "DERECHO UCR", "emoji": "⚖️", "ventas": 11261092.57, "num_prods": 283, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 1044.0, "Monto": 2871001.98, "PctIngreso": 0.25494879490187866}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 418.0, "Monto": 1003198.21, "PctIngreso": 0.08908533552708375}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 410.0, "Monto": 983998.24, "PctIngreso": 0.08738035265080855}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 402.0, "Monto": 602998.35, "PctIngreso": 0.053547055603326774}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 251.0, "Monto": 451799.89, "PctIngreso": 0.040120431227393775}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 171.0, "Monto": 410399.26, "PctIngreso": 0.036444000211251264}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 143.0, "Monto": 343199.38, "PctIngreso": 0.03047656147630798}, {"Nombre Artículo": "CALZONE/PASTELILLOS", "Categoría": "REPOSTERIA", "Cant": 306.0, "Monto": 275399.94, "PctIngreso": 0.024455881015815147}, {"Nombre Artículo": "1CBO 22 VEGETARIANO COMPU", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 114.0, "Monto": 273599.51, "PctIngreso": 0.02429600043683861}, {"Nombre Artículo": "1CBO 20 ARROZ COMPUESTO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 70.0, "Monto": 167999.7, "PctIngreso": 0.014918596837358208}], "ess_count": 29, "ess_monto": 8995292.54, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "CBO3PERSONAL ALMUERZO", "Categoría": "PERSONAL", "Cant": 47.0, "Monto": 0.0}, {"Nombre Artículo": "CBO DESAYUNO", "Categoría": "PERSONAL", "Cant": 2.0, "Monto": 0.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 100.01}, {"Nombre Artículo": "JUEGO CUBERTERIA C100", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 200.01}, {"Nombre Artículo": "TOMATE UD 25G C50", "Categoría": "SANDWICH", "Cant": 3.0, "Monto": 225.0}, {"Nombre Artículo": "ING FRUTA 40G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "F NARANJA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "TAJADA PAN BAGUETTE", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 300.02}, {"Nombre Artículo": "GRANADILLA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "GALLETA CANASTA GUAYABA", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "PALITOS QUESO 35G 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "PICO DE GALLO 50G C150", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "BANDEJA BAGAZO BLANCA", "Categoría": "DESECHABLES", "Cant": 3.0, "Monto": 449.99}, {"Nombre Artículo": "F TROZO PINA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 450.0}], "elim_count": 42, "elim_monto": 23599.96, "elim_pct": 0.21}, {"op": "GENERALES UCR", "emoji": "🎓", "ventas": 28439842.66, "num_prods": 343, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 2123.0, "Monto": 5307501.4799999995, "PctIngreso": 0.18662204089704343}, {"Nombre Artículo": "2PF 11 TROZO RES", "Categoría": "ALMUERZO", "Cant": 1004.0, "Monto": 2133498.91, "PctIngreso": 0.07501795757121817}, {"Nombre Artículo": "2PF 10 TROZO POLLO", "Categoría": "ALMUERZO", "Cant": 862.0, "Monto": 1831749.06, "PctIngreso": 0.0644078478878617}, {"Nombre Artículo": "PANIFICACION SALADA", "Categoría": "REPOSTERIA", "Cant": 1462.0, "Monto": 1242696.06, "PctIngreso": 0.043695602498807926}, {"Nombre Artículo": "2PF 13 TROZO PESCADO C120", "Categoría": "ALMUERZO", "Cant": 554.0, "Monto": 1177249.3900000001, "PctIngreso": 0.04139437070992573}, {"Nombre Artículo": "CBO DESAYUNO + 2 ACOMPAÑA", "Categoría": "DESAYUNO", "Cant": 683.0, "Monto": 1126952.33, "PctIngreso": 0.03962582857692927}, {"Nombre Artículo": "CBO MERIENDA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 709.0, "Monto": 836621.78, "PctIngreso": 0.02941724361846382}, {"Nombre Artículo": "2PF 12 TROZO CERDO", "Categoría": "ALMUERZO", "Cant": 277.0, "Monto": 588624.6900000001, "PctIngreso": 0.02069718517915317}, {"Nombre Artículo": "2PF 22 VEGETARIANO COMPUE", "Categoría": "ALMUERZO", "Cant": 223.0, "Monto": 473874.77, "PctIngreso": 0.016662355543425503}, {"Nombre Artículo": "PANIFICACION DULCE", "Categoría": "REPOSTERIA", "Cant": 540.0, "Monto": 458998.54, "PctIngreso": 0.016139278458300727}], "ess_count": 40, "ess_monto": 22657318.630000003, "ess_pct": 79.7, "elim": [{"Nombre Artículo": "SANDWICH PERSONAL", "Categoría": "PERSONAL", "Cant": 1.0, "Monto": 0.0}, {"Nombre Artículo": "CUCHARA BIODEGRADABLE", "Categoría": "XCLUSIVO DESECHABLES", "Cant": 1.0, "Monto": 25.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 100.01}, {"Nombre Artículo": "SALSA DE QUESO C125", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 125.0}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "BANDEJA COMP 8*8", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "POPI UNICORNIO", "Categoría": "CONFITES CHOCOLATES", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "TOSTADA FRANC C MIEL", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "F NARANJA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "EMPAQUES NEGRO ENSAL", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "YOGURT 60G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "F TROZO PINA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "GALLETA TOSH YOGURT ARAND", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "F GUAYABA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 500.0}], "elim_count": 52, "elim_monto": 33580.0, "elim_pct": 0.12}], "total_ahorro_proveedores": 7491681.690449674, "gasto_comparable": 109850251.2378, "top_ahorro_global": [{"Insumo": "PLATANO MADURO 1ud", "MejorProveedor": "VERDULERIA FAMOSA", "AhorroPotencial": 492144.0800000001}, {"Insumo": "MUSLO ENTERO 1kg", "MejorProveedor": "WALMART/ MAS X MENOS", "AhorroPotencial": 370290.9984376851}, {"Insumo": "PAPA CORTE RECTO 3/8pulg, PQT 5UD, 2kg", "MejorProveedor": "MAYCA FOOD SERVICE", "AhorroPotencial": 347332.7588}, {"Insumo": "AGUACATE 1kg", "MejorProveedor": "GRETHEL MORA PALACIOS", "AhorroPotencial": 287313.1402}, {"Insumo": "POSTA RES P/MECHAR 1kg CI", "MejorProveedor": "CIISA FOOD SERVICES", "AhorroPotencial": 238773.63691626582}], "total_grupo": 188375405.60999998, "total_elim_grupo": 315748.77999999997}
+</script>
+<script>
+const D = JSON.parse(document.getElementById('rdata').textContent);
+const fmt = n => '₡' + Math.round(n).toLocaleString('es-CR');
+const fmtN = n => Math.round(n).toLocaleString('es-CR');
+const fmtP = n => n.toFixed(1) + '%';
+
+// TOP KPIs
+document.getElementById('topKpis').innerHTML = `
+  <div class="top-kpi gold"><div class="lbl">Ventas Grupo Mayo</div><div class="val">${fmt(D.total_grupo)}</div></div>
+  <div class="top-kpi teal"><div class="lbl">Ahorro Potencial Proveedores</div><div class="val">${fmt(D.total_ahorro_proveedores)}</div></div>
+  <div class="top-kpi red"><div class="lbl">Productos sin rotación (a eliminar)</div><div class="val">${fmt(D.total_elim_grupo)}</div></div>
+  <div class="top-kpi"><div class="lbl">Oportunidad Total Identificada</div><div class="val">${fmt(D.total_ahorro_proveedores + D.total_elim_grupo)}</div></div>
+`;
+
+// NAV
+const nav = document.getElementById('navWrap');
+nav.innerHTML = `<div class="nav-btn active" data-tab="resumen">📊 Resumen Grupo</div>` +
+  D.ops.map(o=>`<div class="nav-btn" data-tab="${o.op}">${o.emoji} ${o.op}</div>`).join('');
+
+function recomForOp(o){
+  const lines = [];
+  const top3 = o.ess.slice(0,3).map(p=>p['Nombre Artículo']).join(', ');
+  lines.push({t:'g', txt:`<strong>Garantizar disponibilidad de los ${o.ess_count} productos esenciales</strong>, que representan el ${fmtP(o.ess_pct)} del ingreso (${fmt(o.ess_monto)}). Cualquier quiebre de stock en los top 3 (${top3}) impacta directamente la caja.`});
+  if(o.elim_count > 0){
+    const elim5 = o.elim.slice(0,3).map(p=>p['Nombre Artículo']).join(', ');
+    lines.push({t:'r', txt:`<strong>Descontinuar o revisar los ${o.elim_count} productos con baja rotación</strong> que suman ${fmt(o.elim_monto)} en ventas. Liberan espacio, simplifica la operación y reduce mermas. Ejemplos: ${elim5}.`});
+  }
+  lines.push({t:'b', txt:`<strong>Revisar el costo de los insumos vinculados a los productos esenciales</strong>. Cruzar contra el análisis de proveedores: si estos insumos se compran a 2+ proveedores, negociar precio o consolidar con el proveedor más barato.`});
+  lines.push({t:'y', txt:`<strong>Medir ticket promedio</strong>: con el 80% del ingreso concentrado en ${o.ess_count} productos, una suba de precio del 3-5% en los esenciales equivale a ~${fmt(o.ess_monto*0.04)} adicionales al mes sin cambiar volumen.`});
+  return lines;
+}
+
+function renderResumen(){
+  const sorted = [...D.ops].sort((a,b)=>b.ventas-a.ventas);
+  return `
+  <div class="summary-grid">
+    <div class="s-card">
+      <h3>📊 Ventas por Operación</h3><div class="sub">Ranking mayo 2026</div>
+      ${sorted.map((o,i)=>{
+        const pct=o.ventas/D.total_grupo*100;
+        return `<div style="margin-bottom:9px;">
+          <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:2px;">
+            <span><strong>${i+1}. ${o.emoji} ${o.op}</strong></span><span>${fmt(o.ventas)}</span>
+          </div>
+          <div style="background:#EEF1F6;border-radius:4px;height:16px;position:relative;overflow:hidden;">
+            <div style="height:100%;width:${pct/sorted[0].ventas*sorted[0].ventas/sorted[0].ventas*100}%;background:linear-gradient(90deg,var(--navy2),var(--teal));border-radius:4px;width:${o.ventas/sorted[0].ventas*100}%"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="s-card">
+      <h3>⭐ Productos Esenciales por Cafetería</h3><div class="sub">Cantidad que genera el 80% del ingreso</div>
+      <table><thead><tr><th>Cafetería</th><th>Esenciales</th><th>% Ingreso</th><th>Monto</th></tr></thead><tbody>
+        ${sorted.map(o=>`<tr>
+          <td class="left">${o.emoji} ${o.op}</td>
+          <td><span class="pill b">${o.ess_count}</span></td>
+          <td>${fmtP(o.ess_pct)}</td>
+          <td class="left"><span class="pill g">${fmt(o.ess_monto)}</span></td>
+        </tr>`).join('')}
+      </tbody></table>
+    </div>
+    <div class="s-card">
+      <h3>🗑️ Impacto Productos Sin Rotación</h3><div class="sub">Lo que representan en ventas los candidatos a eliminar</div>
+      <table><thead><tr><th>Cafetería</th><th># Prods</th><th>Monto en ventas</th></tr></thead><tbody>
+        ${sorted.map(o=>`<tr>
+          <td class="left">${o.emoji} ${o.op}</td>
+          <td><span class="pill r">${o.elim_count}</span></td>
+          <td><span class="pill r">${fmt(o.elim_monto)}</span></td>
+        </tr>`).join('')}
+        <tr style="background:var(--red-bg);font-weight:700;">
+          <td class="left">TOTAL GRUPO</td>
+          <td>${D.ops.reduce((a,o)=>a+o.elim_count,0)}</td>
+          <td>${fmt(D.total_elim_grupo)}</td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="recom-box">
+    <h4>💰 Top 5 Insumos con Mayor Ahorro Potencial por Proveedor (Grupo)</h4>
+    ${D.top_ahorro_global.map((r,i)=>`
+      <div class="recom-item">
+        <div class="badge b">${i+1}</div>
+        <div><strong>${r.Insumo}</strong> — Mejor proveedor: <strong>${r.MejorProveedor}</strong> · Ahorro: <span style="color:var(--green);font-weight:700;">${fmt(r.AhorroPotencial)}</span></div>
+      </div>
+    `).join('')}
+    <div style="margin-top:14px;padding:10px 14px;background:var(--green-bg);border-radius:8px;font-size:0.85rem;color:var(--green);">
+      <strong>Ahorro potencial total si se consolida compra al mejor proveedor disponible: ${fmt(D.total_ahorro_proveedores)}</strong>
+       — representa el ${(D.total_ahorro_proveedores/D.gasto_comparable*100).toFixed(1)}% del gasto en insumos comparables del mes.
+    </div>
+  </div>
+  `;
+}
+
+function renderOp(o){
+  const recom = recomForOp(o);
+  return `
+  <div class="op-header">
+    <div>
+      <h2>${o.emoji} ${o.op}</h2>
+      <div style="color:#B0C4DE;font-size:0.85rem;margin-top:4px;">${o.num_prods} productos vendidos en mayo 2026</div>
+    </div>
+    <div class="op-kpis">
+      <div class="op-kpi gold"><div class="k-lbl">Ventas totales</div><div class="k-val">${fmt(o.ventas)}</div></div>
+      <div class="op-kpi green-kpi"><div class="k-lbl">Esenciales (${o.ess_count} prods)</div><div class="k-val">${fmt(o.ess_monto)}</div></div>
+      <div class="op-kpi red-kpi"><div class="k-lbl">A eliminar (${o.elim_count} prods)</div><div class="k-val">${fmt(o.elim_monto)}</div></div>
+    </div>
+  </div>
+
+  <div class="opp-grid">
+    <div class="opp-box green-box">
+      <div class="opp-title">⭐ Oportunidad — Garantizar Esenciales</div>
+      <div class="opp-val">${fmt(o.ess_monto)}</div>
+      <div class="opp-desc">${o.ess_count} productos generan el ${fmtP(o.ess_pct)} del ingreso. Un quiebre de stock en cualquiera impacta directamente la venta del día.</div>
+    </div>
+    <div class="opp-box red-box">
+      <div class="opp-title">🗑️ Oportunidad — Eliminar Bajo Desempeño</div>
+      <div class="opp-val">${fmt(o.elim_monto)}</div>
+      <div class="opp-desc">${o.elim_count} productos representan menos del 15% del ingreso. Eliminarlos libera espacio, reduce merma y simplifica la operación.</div>
+    </div>
+    <div class="opp-box blue-box">
+      <div class="opp-title">📐 Margen por Precio Esenciales (+4%)</div>
+      <div class="opp-val">${fmt(o.ess_monto * 0.04)}</div>
+      <div class="opp-desc">Incremento mensual estimado si se aplica un ajuste del 4% sobre los precios de venta de los ${o.ess_count} productos esenciales.</div>
+    </div>
+  </div>
+
+  <div class="recom-box">
+    <h4>🎯 Recomendaciones para ${o.op}</h4>
+    ${recom.map(r=>`<div class="recom-item"><div class="badge ${r.t}">${r.t==='g'?'✓':r.t==='r'?'✕':r.t==='b'?'↗':'$'}</div><div>${r.txt}</div></div>`).join('')}
+  </div>
+
+  <div class="two-col">
+    <div class="tbl-wrap">
+      <h4 class="green">⭐ Top ${Math.min(10,o.ess.length)} Esenciales — Nunca Deben Faltar</h4>
+      <table>
+        <thead><tr><th>#</th><th>Producto</th><th>Cant.</th><th>Ingreso (₡)</th><th>% Ingreso</th></tr></thead>
+        <tbody>
+          ${o.ess.slice(0,10).map((r,i)=>`<tr>
+            <td>${i+1}</td><td class="left"><strong>${r['Nombre Artículo']}</strong></td>
+            <td>${fmtN(r.Cant)}</td>
+            <td><span class="pill g">${fmtN(r.Monto)}</span></td>
+            <td>${fmtP(r.PctIngreso*100)}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <h4 class="red">🗑️ Top ${Math.min(15,o.elim.length)} Candidatos a Eliminar</h4>
+      <table>
+        <thead><tr><th>#</th><th>Producto</th><th>Cant.</th><th>Ingreso (₡)</th></tr></thead>
+        <tbody>
+          ${o.elim.slice(0,15).map((r,i)=>`<tr>
+            <td>${i+1}</td><td class="left">${r['Nombre Artículo']}</td>
+            <td>${fmtN(r.Cant)}</td>
+            <td><span class="pill r">${fmtN(r.Monto)}</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  `;
+}
+
+const renderers = {'resumen': renderResumen};
+D.ops.forEach(o=>{ renderers[o.op] = ()=>renderOp(o); });
+
+function showTab(name){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  document.getElementById('app').innerHTML = renderers[name] ? renderers[name]() : '';
+  window.scrollTo(0,0);
+}
+
+document.getElementById('navWrap').addEventListener('click', e=>{
+  const btn = e.target.closest('.nav-btn');
+  if(btn) showTab(btn.dataset.tab);
+});
+
+showTab('resumen');
+</script>
+</body>
+</html>
