@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inducción de Seguridad — Capacitación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1b1e20;
+    --panel: #24282b;
+    --panel-raised: #2c3134;
+    --line: #3a4045;
+    --text: #edede6;
+    --text-dim: #9aa3a8;
+    --yellow: #f5b700;
+    --yellow-dim: #b98800;
+    --red: #d7263d;
+    --green: #4c9a5a;
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stripe{
+    height:10px;
+    background:repeating-linear-gradient(
+      -45deg,
+      var(--yellow),
+      var(--yellow) 12px,
+      #1a1a1a 12px,
+      #1a1a1a 24px
+    );
+  }
+  header.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px clamp(20px,5vw,48px);
+    border-bottom:1px solid var(--line);
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .wordmark{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--text);
+  }
+  .wordmark span{color:var(--yellow);}
+  .doc-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:var(--radius);
+    letter-spacing:0.04em;
+  }
+  main{
+    max-width:900px;
+    margin:0 auto;
+    padding:clamp(28px,6vw,64px) clamp(20px,5vw,48px) 80px;
+  }
+  .view{display:none;}
+  .view.active{display:block; animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  /* HOME */
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--yellow);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:clamp(32px,5.5vw,52px);
+    line-height:1.05;
+    letter-spacing:0.01em;
+    text-transform:uppercase;
+    margin-bottom:20px;
+  }
+  .lede{
+    color:var(--text-dim);
+    font-size:16px;
+    max-width:56ch;
+    margin-bottom:32px;
+  }
+  .home-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin-bottom:36px;
+  }
+  .stat{
+    background:var(--panel);
+    padding:20px 18px;
+  }
+  .stat .num{
+    font-family:'Oswald', sans-serif;
+    font-size:30px;
+    font-weight:600;
+    color:var(--yellow);
+    line-height:1;
+  }
+  .stat .label{
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:8px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    padding:15px 26px;
+    border-radius:var(--radius);
+    border:none;
+    cursor:pointer;
+    transition:transform .12s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{background:var(--yellow); color:#1a1a1a;}
+  .btn-primary:hover{background:#ffc933;}
+  .btn-outline{background:transparent; color:var(--text); border:1px solid var(--line);}
+  .btn-outline:hover{border-color:var(--text-dim);}
+  .btn:disabled{opacity:0.4; cursor:not-allowed;}
+
+  /* SECTION HEADER */
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .section-head h2{
+    font-family:'Oswald', sans-serif;
+    font-size:24px;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+  }
+  .back-link{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+  .back-link:hover{color:var(--text);}
+
+  .progress-bar{
+    height:6px;
+    background:var(--panel-raised);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:28px;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--yellow);
+    width:0%;
+    transition:width .3s ease;
+  }
+
+  /* SECTION LABEL (groups topics into two tracks) */
+  .track-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--yellow-dim);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin:28px 0 10px;
+    padding-top:4px;
+  }
+  .track-label:first-of-type{margin-top:0;}
+
+  /* ACCORDION */
+  .topic{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:10px;
+    overflow:hidden;
+    background:var(--panel);
+  }
+  .topic-head{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 18px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .topic-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--yellow);
+    min-width:26px;
+  }
+  .topic-title{
+    font-weight:600;
+    font-size:15px;
+    flex:1;
+  }
+  .topic-chevron{
+    color:var(--text-dim);
+    font-family:'IBM Plex Mono', monospace;
+    transition:transform .2s ease;
+  }
+  .topic.open .topic-chevron{transform:rotate(180deg);}
+  .topic-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    border-top:1px solid transparent;
+  }
+  .topic.open .topic-body{
+    border-top:1px solid var(--line);
+  }
+  .topic-body-inner{
+    padding:16px 18px 20px 60px;
+    color:var(--text-dim);
+    font-size:14px;
+  }
+  .topic-body-inner ul{margin:8px 0 8px 18px;}
+  .topic-body-inner li{margin-bottom:4px;}
+  .topic-body-inner p{margin-bottom:8px;}
+  .topic-body-inner strong{color:var(--text);}
+  .topic-body-inner .source{
+    display:block;
+    margin-top:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--yellow-dim);
+  }
+
+  .study-footer{
+    margin-top:32px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+
+  /* QUIZ */
+  .quiz-meta{
+    display:flex;
+    justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    margin-bottom:10px;
+  }
+  .quiz-meta .current{color:var(--yellow);}
+  .question-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px;
+  }
+  .question-topic-tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--yellow);
+    border:1px solid var(--yellow-dim);
+    padding:3px 8px;
+    border-radius:3px;
+    margin-bottom:16px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .question-text{
+    font-family:'Oswald', sans-serif;
+    font-size:19px;
+    font-weight:500;
+    line-height:1.35;
+    margin-bottom:22px;
+  }
+  .options{display:flex; flex-direction:column; gap:10px;}
+  .option{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+    font-size:14px;
+  }
+  .option:hover{border-color:var(--text-dim);}
+  .option.selected{border-color:var(--yellow); background:rgba(245,183,0,0.08);}
+  .option-letter{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    border:1px solid var(--line);
+    width:24px; height:24px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:3px;
+    flex-shrink:0;
+  }
+  .option.selected .option-letter{color:var(--yellow); border-color:var(--yellow);}
+  .quiz-nav{
+    display:flex;
+    justify-content:space-between;
+    margin-top:24px;
+    gap:12px;
+  }
+
+  /* RESULT */
+  .badge-card{
+    background:var(--panel);
+    border:2px solid var(--line);
+    border-radius:6px;
+    padding:0;
+    overflow:hidden;
+    margin-bottom:28px;
+  }
+  .badge-top{
+    padding:28px;
+    text-align:center;
+  }
+  .badge-top .status{
+    font-family:'Oswald', sans-serif;
+    font-size:34px;
+    font-weight:700;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .status.pass{color:var(--green);}
+  .status.fail{color:var(--red);}
+  .badge-top .score-line{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--text-dim);
+    font-size:14px;
+  }
+  .badge-top .score-line b{color:var(--text); font-size:16px;}
+  .badge-stripe-bottom{
+    height:8px;
+    background:repeating-linear-gradient(
+      -45deg, var(--yellow), var(--yellow) 10px, #1a1a1a 10px, #1a1a1a 20px
+    );
+  }
+  .review-item{
+    border:1px solid var(--line);
+    border-left:3px solid var(--red);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    margin-bottom:10px;
+    background:var(--panel);
+  }
+  .review-item .q{font-size:14px; font-weight:600; margin-bottom:10px;}
+  .review-item .a-wrong{font-size:13px; color:var(--red); margin-bottom:4px;}
+  .review-item .a-right{font-size:13px; color:var(--green);}
+  .review-title{
+    font-family:'Oswald', sans-serif;
+    font-size:16px;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    margin:32px 0 16px;
+    color:var(--text-dim);
+  }
+  .result-actions{
+    display:flex; gap:14px; flex-wrap:wrap; margin-top:28px;
+  }
+  footer{
+    text-align:center;
+    padding:24px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--text-dim);
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:520px){
+    .home-stats{grid-template-columns:1fr;}
+    .topic-body-inner{padding-left:20px;}
+    .btn{width:100%; text-align:center;}
+    .quiz-nav .btn{flex:1;}
+  }
+</style>
+</head>
+<body>
+
+<div class="stripe"></div>
+<header class="topbar">
+  <div class="wordmark">Inducción de <span>Seguridad</span></div>
+  <div class="doc-tag">Costa Rica · Normativa vigente</div>
+</header>
+
+<main>
+
+  <!-- HOME VIEW -->
+  <section class="view active" id="view-home">
+    <div class="eyebrow">Capacitación obligatoria de seguridad ocupacional</div>
+    <h1>Inducción de Seguridad</h1>
+    <p class="lede">Repasá los temas de seguridad ocupacional e higiene alimentaria vigentes en Costa Rica y presentá el examen. Se necesita una calificación mínima de 80 puntos para aprobar.</p>
+
+    <div class="home-stats">
+      <div class="stat"><div class="num">19</div><div class="label">Temas de estudio</div></div>
+      <div class="stat"><div class="num">25</div><div class="label">Preguntas del examen</div></div>
+      <div class="stat"><div class="num">80</div><div class="label">Puntos para aprobar</div></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showView('study')">Comenzar estudio</button>
+      <button class="btn btn-outline" onclick="startQuiz()">Ir directo al examen</button>
+    </div>
+  </section>
+
+  <!-- STUDY VIEW -->
+  <section class="view" id="view-study">
+    <div class="section-head">
+      <h2>Módulo de estudio</h2>
+      <button class="back-link" onclick="showView('home')">&larr; Volver al inicio</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="study-progress-fill"></div></div>
+    <div id="topics-container"></div>
+    <div class="study-footer">
+      <span id="study-progress-label" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim);">0 de 19 temas revisados</span>
+      <button class="btn btn-primary" onclick="startQuiz()">Ir al examen &rarr;</button>
+    </div>
+  </section>
+
+  <!-- QUIZ VIEW -->
+  <section class="view" id="view-quiz">
+    <div class="section-head">
+      <h2>Examen de seguridad</h2>
+      <button class="back-link" onclick="showView('home')">&larr; Salir</button>
+    </div>
+    <div class="quiz-meta">
+      <span>Pregunta <span class="current" id="quiz-current-num">1</span> de <span id="quiz-total-num">25</span></span>
+      <span id="quiz-answered-label">0 respondidas</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="quiz-progress-fill"></div></div>
+
+    <div class="question-card">
+      <div class="question-topic-tag" id="q-topic-tag">Tema</div>
+      <div class="question-text" id="q-text">—</div>
+      <div class="options" id="q-options"></div>
+    </div>
+
+    <div class="quiz-nav">
+      <button class="btn btn-outline" id="btn-prev" onclick="navQuiz(-1)">&larr; Anterior</button>
+      <button class="btn btn-primary" id="btn-next" onclick="navQuiz(1)">Siguiente &rarr;</button>
+      <button class="btn btn-primary" id="btn-submit" onclick="submitQuiz()" style="display:none;">Enviar examen</button>
+    </div>
+  </section>
+
+  <!-- RESULT VIEW -->
+  <section class="view" id="view-result">
+    <div class="section-head">
+      <h2>Resultado</h2>
+      <button class="back-link" onclick="showView('home')">&larr; Volver al inicio</button>
+    </div>
+
+    <div class="badge-card">
+      <div class="badge-top">
+        <div class="status" id="result-status">—</div>
+        <div class="score-line">Calificación obtenida: <b id="result-score">0/100</b> · Mínimo para aprobar: 80</div>
+      </div>
+      <div class="badge-stripe-bottom"></div>
+    </div>
+
+    <div id="result-review"></div>
+
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="startQuiz()">Reintentar examen</button>
+      <button class="btn btn-outline" onclick="showView('study')">Volver a estudiar</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>Inducción de Seguridad · Capacitación · Contenido basado en normativa costarricense vigente</footer>
+
+<script>
+// ---------- DATA: temas de estudio ----------
+// Bloque 1 (temas 1-15): seguridad ocupacional general — contenido original de la inducción, verificado contra normativa CR.
+// Bloque 2 (temas 16-19): higiene alimentaria y atención en cafetería — agregado según el enfoque de servicios de alimentación.
+// Nota: los temas "Comisión y Departamento de Salud Ocupacional", "Permiso de trabajo seguro" y "Permiso Sanitario de Funcionamiento (PSF)"
+// se retiraron del módulo de estudio a pedido, pero sus preguntas correspondientes se mantienen en el examen.
+const topics = [
+  {n:1, title:"Equipo de Protección Personal (EPP)", body:`<p>El Reglamento General de Seguridad e Higiene de Trabajo (Ministerio de Trabajo y Seguridad Social) establece la obligación del patrono de mantener en buen estado la maquinaria, las instalaciones y las herramientas de trabajo, y de promover la capacitación del personal en seguridad e higiene.</p>
+    <p>El equipo de protección debe ajustarse al riesgo de cada labor. Para tareas industriales o de mantenimiento suele incluir:</p>
+    <ul><li>Casco</li><li>Lentes de seguridad</li><li>Guantes</li><li>Chaleco de seguridad</li><li>Calzado con punta de seguridad</li></ul>
+    <p><strong>Importante:</strong> todo el equipo debe encontrarse en óptimas condiciones antes de iniciar cualquier actividad.</p>
+    <span class="source">Fuente: Reglamento General de Seguridad e Higiene de Trabajo, MTSS</span>`},
+  {n:2, title:"Seguridad en las áreas de trabajo", body:`<p>Antes de comenzar labores, toda persona debe identificar:</p>
+    <ul><li>Salidas de evacuación</li><li>Equipo contra incendio disponible en el área</li><li>Barreras de seguridad</li></ul>
+    <p>Las barreras pueden estar delimitadas mediante cinta de seguridad o conos. No se debe ingresar a áreas restringidas sin autorización.</p>`},
+  {n:3, title:"Manejo de productos químicos", body:`<p>Los productos químicos deben contar con su hoja de datos de seguridad (FDS/SDS), disponible y en <strong>idioma español</strong>, conforme al Sistema Globalmente Armonizado de clasificación y etiquetado adoptado en Costa Rica.</p>
+    <p>Se deben respetar las fechas de vencimiento y las condiciones de almacenamiento indicadas por el fabricante.</p>`},
+  {n:4, title:"Trabajos de alto riesgo", body:`<p><strong>Trabajo en altura:</strong> el Consejo de Salud Ocupacional (CSO) lo define como toda tarea realizada a más de <strong>1.8 metros</strong> del nivel del suelo donde exista riesgo de caída (Ley General de Salud Ocupacional N.º 6727; norma técnica INTE 31-08-06). Requiere permiso de trabajo, equipo de protección contra caídas, evaluación de las condiciones climáticas y supervisión de un responsable.</p>
+    <p><strong>Espacios confinados:</strong> según la guía técnica del CSO/MTSS, requieren identificación previa de riesgos, permiso de trabajo, ventilación adecuada y un vigía externo permanente. No se debe trabajar en solitario.</p>
+    <p><strong>Bloqueo y etiquetado:</strong> todo trabajo que implique energías peligrosas debe controlarse mediante el procedimiento de Bloqueo y Etiquetado (Lock Out / Tag Out) antes de intervenir el equipo.</p>
+    <span class="source">Fuente: Ley N.º 6727, norma INTE 31-08-06, guías técnicas del CSO/MTSS</span>`},
+  {n:5, title:"Procedimientos de emergencia", body:`<p>El <strong>Sistema de Emergencias 9-1-1</strong> es la línea oficial única para reportar cualquier emergencia en Costa Rica: policía, bomberos y ambulancia.</p>
+    <p>Números adicionales de referencia: Bomberos <strong>118</strong>, Cruz Roja <strong>128</strong>.</p>
+    <span class="source">Fuente: Sistema Nacional de Emergencias 9-1-1, Costa Rica</span>`},
+  {n:6, title:"Atención de derrames", body:`<p><strong>Derrames menores (agua u otros no peligrosos):</strong> seguir el procedimiento interno de limpieza del centro de trabajo.</p>
+    <p><strong>Derrames de productos químicos:</strong> deben ser atendidos únicamente por personal capacitado o la brigada de emergencia; nunca por personal no autorizado.</p>`},
+  {n:7, title:"Pérdida de energía / cortes eléctricos", body:`<p>Ante una interrupción del suministro eléctrico: mantener la calma y permanecer en un lugar seguro. Los centros de trabajo con sistemas de respaldo activan iluminación de emergencia y equipos críticos según su plan interno.</p>`},
+  {n:8, title:"Punto de reunión", body:`<p>Todo centro de trabajo debe contar con un punto de reunión definido y señalizado para casos de evacuación.</p>
+    <p>Durante una evacuación: no correr, mantener el orden y seguir las instrucciones del personal de emergencia o brigadista.</p>`},
+  {n:9, title:"Normas de vestimenta", body:`<p>Se recomienda evitar prendas que representen un riesgo adicional en el entorno laboral:</p>
+    <ul><li>Gorras o gafas oscuras que reduzcan la visibilidad en zonas de riesgo</li><li>Calzado inadecuado, como tacón superior a 7 cm</li><li>Ropa rota o deshilachada</li><li>Prendas que dejen zonas del cuerpo expuestas a riesgos del entorno</li></ul>`},
+  {n:10, title:"Normas generales de seguridad", body:`<p>El Código de Trabajo prohíbe laborar bajo efectos de alcohol o drogas. Está prohibido introducir armas, encendedores o cualquier objeto que produzca chispas en zonas de riesgo.</p>
+    <p>Al utilizar escaleras: circular por el lado derecho, sujetarse siempre del pasamanos y evitar el uso del teléfono celular mientras se sube o baja.</p>
+    <p>El equipo de emergencia debe permanecer siempre libre y accesible.</p>`},
+  {n:11, title:"Procesos de riesgo especial", body:`<p>Algunos centros de trabajo cuentan con procesos identificados como de riesgo especial — por ejemplo, manejo de líquidos inflamables, sustancias químicas de proceso o almacenamiento de combustibles.</p>
+    <p>Cada persona debe conocer cuáles son los procesos de riesgo especial de su propio centro de trabajo y los protocolos asociados a cada uno.</p>`},
+  {n:12, title:"Consumo de alimentos", body:`<p>El consumo de alimentos debe realizarse únicamente en las áreas designadas para ello (comedor o cafetería), conforme a las normas de higiene del centro de trabajo.</p>`},
+  {n:13, title:"Áreas restringidas", body:`<p>Zonas como cuartos eléctricos, casas de máquinas, techos o mezzanines suelen clasificarse como áreas restringidas.</p>
+    <p>El ingreso debe realizarse siempre con la autorización correspondiente y, como buena práctica, acompañado de otra persona.</p>`},
+  {n:14, title:"Ingreso a las instalaciones", body:`<p>El ingreso a cualquier centro de trabajo debe realizarse por los accesos autorizados, presentando el documento de identidad correspondiente y siguiendo el proceso de verificación del personal de seguridad o de recepción.</p>`},
+  {n:15, title:"Uso de mascarilla", body:`<p>El uso de mascarilla puede variar según los protocolos internos de cada centro de trabajo y las disposiciones sanitarias vigentes del Ministerio de Salud. Se recomienda su uso cuando la persona presente síntomas respiratorios.</p>`},
+  {n:16, title:"Carné de manipulador de alimentos", body:`<p>Es el documento personal mediante el cual el Ministerio de Salud autoriza a una persona para desempeñar labores de manipulación de alimentos, acreditando que posee los conocimientos sanitarios básicos indispensables para esta labor.</p>
+    <p>Es responsabilidad de cada persona manipuladora mantener su carné vigente.</p>
+    <span class="source">Fuente: Reglamento para los Servicios de Alimentación al Público N.º 37308-S, Ministerio de Salud</span>`},
+  {n:17, title:"Higiene personal en la manipulación de alimentos", body:`<p>Toda persona que manipula alimentos debe mantener una higiene personal constante: lavado frecuente de manos, uñas cortas y limpias, cabello cubierto con cofia o malla, uniforme limpio, y evitar el uso de joyas en zonas de preparación de alimentos.</p>
+    <span class="source">Fuente: Reglamento para los Servicios de Alimentación al Público N.º 37308-S</span>`},
+  {n:18, title:"Manejo higiénico de alimentos y contaminación cruzada", body:`<p>La limpieza consiste en la eliminación física de materia orgánica, residuos de alimentos, suciedad, grasa u otras materias objetables de superficies, equipo y utensilios.</p>
+    <p>Se debe evitar la contaminación cruzada: no mezclar alimentos crudos y cocidos sobre la misma superficie sin limpiar y desinfectar entre usos, y mantener los productos químicos de limpieza separados de los alimentos.</p>
+    <span class="source">Fuente: Reglamento para los Servicios de Alimentación al Público N.º 37308-S</span>`},
+  {n:19, title:"Atención al público en el punto de servicio", body:`<p>Al servir alimentos directamente al público, se debe evitar el contacto directo de las manos con alimentos listos para consumo, utilizando utensilios, pinzas o guantes según corresponda.</p>
+    <p>Se debe mantener el área de servicio limpia y ordenada durante toda la jornada de atención.</p>`},
+];
+
+// ---------- DATA: preguntas del examen ----------
+const questionBank = [
+  {topic:"EPP", text:"¿Cuál de los siguientes NO se considera parte del Equipo de Protección Personal básico para tareas industriales?", options:["Casco","Chaleco de seguridad","Teléfono celular","Zapatos con punta de seguridad"], correct:2},
+  {topic:"Áreas de trabajo", text:"¿Qué debe identificar toda persona antes de iniciar labores en un centro de trabajo?", options:["Solo el horario de salida","Las salidas de evacuación, el equipo contra incendio y las barreras de seguridad","Únicamente el nombre de su supervisor","No es necesario identificar nada en particular"], correct:1},
+  {topic:"Áreas de trabajo", text:"¿Con qué materiales pueden estar delimitadas las barreras de seguridad?", options:["Únicamente con vallas metálicas","Cinta de seguridad o conos","Solo con pintura en el piso","No se especifica"], correct:1},
+  {topic:"Químicos", text:"¿En qué idioma debe estar disponible la hoja de datos de seguridad (FDS/SDS) de un producto químico en Costa Rica?", options:["Inglés","Español","Bilingüe obligatorio","No se especifica"], correct:1},
+  {topic:"Trabajo en altura", text:"Según el Consejo de Salud Ocupacional (CSO) y la norma INTE 31-08-06, ¿a partir de qué altura se considera 'trabajo en altura' en Costa Rica?", options:["Más de 1.20 metros","Más de 1.50 metros","Más de 1.8 metros","Más de 2.5 metros"], correct:2},
+  {topic:"Espacios confinados", text:"¿Qué elemento es indispensable en un trabajo en espacio confinado, según la guía técnica del CSO/MTSS?", options:["Trabajar en completo silencio","Un vigía externo permanente","Evitar el uso de permisos de trabajo","Realizarlo sin ventilación"], correct:1},
+  {topic:"Bloqueo y etiquetado", text:"¿Qué procedimiento debe seguirse en trabajos que impliquen energías peligrosas?", options:["Aviso verbal al supervisor únicamente","Bloqueo y Etiquetado (Lock Out / Tag Out)","Ninguno, no se requiere procedimiento","Desconectar el equipo sin señalización"], correct:1},
+  {topic:"Emergencias", text:"¿Cuál es el número único del Sistema de Emergencias en Costa Rica?", options:["112","911","100","800"], correct:1},
+  {topic:"Emergencias", text:"¿A qué número puede llamarse directamente para contactar a la Cruz Roja (servicio de ambulancia) en Costa Rica?", options:["118","128","911 únicamente","No tiene número directo"], correct:1},
+  {topic:"Derrames", text:"¿Quién debe atender un derrame de productos químicos?", options:["Cualquier persona disponible","Únicamente personal capacitado o la brigada de emergencia","El personal de limpieza general","El primero que lo detecte"], correct:1},
+  {topic:"Corte eléctrico", text:"Ante un corte eléctrico repentino, ¿qué se recomienda hacer primero?", options:["Salir corriendo del edificio","Mantener la calma y permanecer en un lugar seguro","Seguir operando máquinas eléctricas con normalidad","Intentar reparar el problema por cuenta propia"], correct:1},
+  {topic:"Punto de reunión", text:"¿Qué debe tener todo centro de trabajo para casos de evacuación?", options:["Un punto de reunión definido y señalizado","No es necesario definir un punto de reunión","Solo un aviso verbal el día del evento","Un punto de reunión distinto cada vez"], correct:0},
+  {topic:"Evacuación", text:"Durante una evacuación, ¿qué se debe hacer?", options:["Correr hacia la salida más cercana","No correr, mantener el orden y seguir instrucciones del personal de emergencia","Esperar instrucciones por mensaje de texto","Ir directamente al estacionamiento en vehículo"], correct:1},
+  {topic:"Vestimenta", text:"¿Cuál de estas prendas se recomienda evitar dentro de un centro de trabajo con riesgos?", options:["Zapatos cerrados","Pantalón largo en buen estado","Zapatos con tacón superior a 7 cm","Camisa de manga larga"], correct:2},
+  {topic:"Normas generales", text:"Según el Código de Trabajo, ¿bajo qué condición está prohibido laborar?", options:["Con lentes de sol","Bajo efectos de alcohol o drogas","Con el cabello recogido","Con guantes puestos"], correct:1},
+  {topic:"Alimentos", text:"¿Dónde está permitido el consumo de alimentos dentro de un centro de trabajo?", options:["En cualquier área de descanso","Únicamente en las áreas designadas (comedor o cafetería)","En el puesto de trabajo","En los pasillos principales"], correct:1},
+  {topic:"Áreas restringidas", text:"¿Cuál de las siguientes suele clasificarse como área restringida?", options:["Comedor","Recepción","Cuarto eléctrico","Punto de reunión"], correct:2},
+  {topic:"Salud Ocupacional", text:"Según el Decreto N.º 45166-MTSS, ¿a partir de cuántas personas trabajadoras es obligatoria una Comisión de Salud Ocupacional?", options:["5 o más","10 o más","25 o más","100 o más"], correct:1},
+  {topic:"Salud Ocupacional", text:"¿A partir de cuántas personas trabajadoras corresponde constituir un Departamento de Salud Ocupacional en lugar de una Comisión?", options:["Más de 20","Más de 30","Más de 50","Más de 100"], correct:2},
+  {topic:"Carné de manipulador", text:"¿Qué institución emite el carné de manipulador de alimentos en Costa Rica?", options:["El Ministerio de Trabajo","El Ministerio de Salud","El INS","La municipalidad local"], correct:1},
+  {topic:"Carné de manipulador", text:"¿Qué acredita el carné de manipulador de alimentos?", options:["Que la persona es propietaria del negocio","Que la persona posee los conocimientos sanitarios básicos para manipular alimentos","Que la persona tiene licencia de conducir","Que la persona habla inglés"], correct:1},
+  {topic:"Higiene alimentaria", text:"¿Qué se debe hacer con el cabello en áreas de preparación de alimentos?", options:["Cubrirlo con cofia o malla","Llevarlo suelto y sin cubrir","No tiene ninguna norma asociada","Solo importa si es largo"], correct:0},
+  {topic:"Contaminación cruzada", text:"¿Qué práctica ayuda a evitar la contaminación cruzada en la manipulación de alimentos?", options:["Usar la misma superficie para crudos y cocidos sin limpiar entre usos","Limpiar y desinfectar las superficies entre el uso con alimentos crudos y cocidos","Guardar los químicos de limpieza junto a los alimentos","No es necesario tomar ninguna precaución"], correct:1},
+  {topic:"Permiso sanitario", text:"¿Qué documento certifica que un servicio de alimentación al público cumple con las disposiciones sanitarias del Ministerio de Salud?", options:["El carné de manipulador","El Permiso Sanitario de Funcionamiento (PSF)","La cédula jurídica","El contrato con el cliente"], correct:1},
+  {topic:"Atención al público", text:"Al servir alimentos listos para consumo directamente al público, ¿qué se debe usar para evitar el contacto directo con las manos?", options:["Nada, se puede servir directamente con la mano","Utensilios, pinzas o guantes según corresponda","Solo si el cliente lo pide","Papel periódico"], correct:1},
+];
+
+// ---------- STATE ----------
+let studySeen = new Set();
+let quizOrder = [];
+let quizIndex = 0;
+let answers = {}; // index -> selected option index
+
+// ---------- VIEW SWITCHING ----------
+function showView(name){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ---------- STUDY MODULE ----------
+function renderTopics(){
+  const container = document.getElementById('topics-container');
+  let html = '<div class="track-label">Seguridad ocupacional general</div>';
+  topics.forEach(t => {
+    if(t.n === 16){
+      html += '<div class="track-label">Higiene alimentaria y atención en cafetería</div>';
+    }
+    html += `
+    <div class="topic" id="topic-${t.n}">
+      <div class="topic-head" onclick="toggleTopic(${t.n})">
+        <span class="topic-num">${String(t.n).padStart(2,'0')}</span>
+        <span class="topic-title">${t.title}</span>
+        <span class="topic-chevron">▾</span>
+      </div>
+      <div class="topic-body">
+        <div class="topic-body-inner">${t.body}</div>
+      </div>
+    </div>
+  `;
+  });
+  container.innerHTML = html;
+}
+
+function toggleTopic(n){
+  const el = document.getElementById('topic-' + n);
+  const body = el.querySelector('.topic-body');
+  const isOpen = el.classList.contains('open');
+  if(isOpen){
+    el.classList.remove('open');
+    body.style.maxHeight = null;
+  } else {
+    el.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    studySeen.add(n);
+    updateStudyProgress();
+  }
+}
+
+function updateStudyProgress(){
+  const pct = (studySeen.size / topics.length) * 100;
+  document.getElementById('study-progress-fill').style.width = pct + '%';
+  document.getElementById('study-progress-label').textContent = `${studySeen.size} de ${topics.length} temas revisados`;
+}
+
+// ---------- QUIZ ----------
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz(){
+  quizOrder = shuffle(questionBank.map((_, i) => i));
+  quizIndex = 0;
+  answers = {};
+  document.getElementById('quiz-total-num').textContent = questionBank.length;
+  showView('quiz');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const qIdx = quizOrder[quizIndex];
+  const q = questionBank[qIdx];
+  document.getElementById('quiz-current-num').textContent = quizIndex + 1;
+  document.getElementById('q-topic-tag').textContent = q.topic;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optionsHtml = q.options.map((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    const selected = answers[qIdx] === i ? 'selected' : '';
+    return `<div class="option ${selected}" onclick="selectOption(${qIdx}, ${i})">
+      <span class="option-letter">${letter}</span><span>${opt}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('q-options').innerHTML = optionsHtml;
+
+  document.getElementById('btn-prev').style.visibility = quizIndex === 0 ? 'hidden' : 'visible';
+  const isLast = quizIndex === questionBank.length - 1;
+  document.getElementById('btn-next').style.display = isLast ? 'none' : 'inline-block';
+  document.getElementById('btn-submit').style.display = isLast ? 'inline-block' : 'none';
+
+  updateQuizProgress();
+}
+
+function selectOption(qIdx, optIdx){
+  answers[qIdx] = optIdx;
+  renderQuestion();
+}
+
+function navQuiz(dir){
+  quizIndex = Math.max(0, Math.min(questionBank.length - 1, quizIndex + dir));
+  renderQuestion();
+}
+
+function updateQuizProgress(){
+  const answeredCount = Object.keys(answers).length;
+  document.getElementById('quiz-answered-label').textContent = `${answeredCount} respondidas`;
+  const pct = ((quizIndex + 1) / questionBank.length) * 100;
+  document.getElementById('quiz-progress-fill').style.width = pct + '%';
+}
+
+function submitQuiz(){
+  const unanswered = questionBank.length - Object.keys(answers).length;
+  if(unanswered > 0){
+    if(!confirm(`Tenés ${unanswered} pregunta(s) sin responder. ¿Deseás enviar el examen de todas formas?`)) return;
+  }
+
+  let correctCount = 0;
+  const missed = [];
+  questionBank.forEach((q, i) => {
+    if(answers[i] === q.correct){
+      correctCount++;
+    } else {
+      missed.push({q, given: answers[i]});
+    }
+  });
+
+  const score = Math.round((correctCount / questionBank.length) * 100);
+  const passed = score >= 80;
+
+  const statusEl = document.getElementById('result-status');
+  statusEl.textContent = passed ? 'Aprobado' : 'No aprobado';
+  statusEl.className = 'status ' + (passed ? 'pass' : 'fail');
+  document.getElementById('result-score').textContent = `${score}/100`;
+
+  const reviewContainer = document.getElementById('result-review');
+  if(missed.length === 0){
+    reviewContainer.innerHTML = `<div class="review-title">Respondiste correctamente todas las preguntas.</div>`;
+  } else {
+    reviewContainer.innerHTML = `<div class="review-title">Preguntas para reforzar (${missed.length})</div>` +
+      missed.map(m => `
+        <div class="review-item">
+          <div class="q">${m.q.text}</div>
+          <div class="a-wrong">Tu respuesta: ${m.given !== undefined ? m.q.options[m.given] : '— sin responder —'}</div>
+          <div class="a-right">Respuesta correcta: ${m.q.options[m.q.correct]}</div>
+        </div>
+      `).join('');
+  }
+
+  showView('result');
+}
+
+// ---------- INIT ----------
+renderTopics();
+</script>
+
+</body>
+</html>
