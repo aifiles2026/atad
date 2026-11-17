@@ -1,306 +1,357 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte Ejecutivo — Mayo 2026</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CocinArte · Avance de metas · Noviembre 2026 · Semanas 1 y 2</title>
 <style>
 :root{
-  --navy:#0D1F3C; --navy2:#1B3A6B; --dark:#1A1A2E; --gray:#4A5568;
-  --gold:#F5A623; --teal:#00A99D; --green:#1B7F4F; --green-bg:#D4EDDA;
-  --yellow-bg:#FFF3CD; --yellow-tx:#856404; --silver:#C0C0C0; --bronze:#CD7F32;
-  --blue-bg:#EBF3FB; --red:#B02A37; --red-bg:#F8D7DA; --bg:#F0F4FA;
-  --border:#D0D7E2; --white:#fff;
+  --azul:#2E75B6; --azul-osc:#1F4E79; --azul-cl:#BDD7EE;
+  --amarillo:#FFFF00; --amarillo-cl:#FFF2CC;
+  --verde:#548235; --verde-cl:#E2EFDA; --mostaza:#7F6000;
+  --rojo:#C00000; --gris:#A6A6A6; --gris-cl:#D9D9D9; --gris-osc:#595959;
+  --fondo:#F4F7FB; --tinta:#1b2733;
 }
-*{box-sizing:border-box; margin:0; padding:0;}
-body{font-family:'Segoe UI',Calibri,Arial,sans-serif; background:var(--bg); color:var(--dark);}
-
-/* TOP BAR */
-.topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%); color:#fff; padding:32px 44px 28px;}
-.topbar h1{font-size:1.9rem; font-weight:800; margin-bottom:6px;}
-.topbar p{color:#B0C4DE; font-size:0.92rem;}
-.top-kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:22px;}
-.top-kpi{background:rgba(255,255,255,0.1); border-radius:10px; padding:14px 18px;}
-.top-kpi .lbl{font-size:0.7rem; text-transform:uppercase; letter-spacing:.05em; opacity:.8; margin-bottom:5px;}
-.top-kpi .val{font-size:1.35rem; font-weight:800;}
-.top-kpi.gold{background:var(--gold); color:var(--dark);}
-.top-kpi.green{background:var(--green);}
-.top-kpi.red{background:var(--red);}
-.top-kpi.teal{background:var(--teal);}
-
-/* NAV */
-.nav-wrap{background:var(--navy); position:sticky; top:0; z-index:100; padding:0 32px; display:flex; gap:2px; overflow-x:auto;}
-.nav-btn{padding:12px 14px; color:#B0C4DE; cursor:pointer; font-size:0.78rem; font-weight:700;
-  border-bottom:3px solid transparent; white-space:nowrap; transition:all .15s; user-select:none;}
-.nav-btn:hover{color:#fff;}
-.nav-btn.active{color:#fff; border-bottom-color:var(--gold); background:rgba(255,255,255,0.07);}
-
-/* MAIN */
-.container{max-width:1240px; margin:0 auto; padding:28px 28px 80px;}
-.section{display:none;}
-.section.active{display:block; animation:fi .2s ease;}
-@keyframes fi{from{opacity:0}to{opacity:1}}
-
-/* SUMMARY CARDS */
-.summary-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:22px;}
-@media(max-width:900px){.summary-grid{grid-template-columns:1fr;} .top-kpis{grid-template-columns:1fr 1fr;}}
-.s-card{background:#fff; border-radius:12px; padding:20px 22px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(20,30,60,.05);}
-.s-card h3{font-size:0.95rem; color:var(--navy2); margin-bottom:4px;}
-.s-card .sub{font-size:0.78rem; color:var(--gray); margin-bottom:14px;}
-
-/* OP CARD */
-.op-header{background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff; border-radius:14px;
-  padding:24px 28px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
-.op-header h2{font-size:1.5rem; font-weight:800;}
-.op-header .op-kpis{display:flex; gap:14px; flex-wrap:wrap;}
-.op-kpi{background:rgba(255,255,255,0.12); border-radius:8px; padding:10px 16px; text-align:center; min-width:110px;}
-.op-kpi .k-lbl{font-size:0.65rem; text-transform:uppercase; letter-spacing:.05em; opacity:.8; margin-bottom:3px;}
-.op-kpi .k-val{font-size:1.1rem; font-weight:800;}
-.op-kpi.gold{background:var(--gold); color:var(--dark);}
-.op-kpi.red-kpi{background:var(--red);}
-.op-kpi.green-kpi{background:var(--green);}
-
-/* OPPORTUNITY BOXES */
-.opp-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:22px;}
-@media(max-width:1000px){.opp-grid{grid-template-columns:1fr;}}
-.opp-box{border-radius:10px; padding:16px 18px; border-left:5px solid;}
-.opp-box.green-box{background:var(--green-bg); border-color:var(--green);}
-.opp-box.red-box{background:var(--red-bg); border-color:var(--red);}
-.opp-box.blue-box{background:var(--blue-bg); border-color:var(--navy2);}
-.opp-box .opp-title{font-size:0.78rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700; margin-bottom:6px;}
-.opp-box.green-box .opp-title{color:var(--green);}
-.opp-box.red-box .opp-title{color:var(--red);}
-.opp-box.blue-box .opp-title{color:var(--navy2);}
-.opp-box .opp-val{font-size:1.5rem; font-weight:800; margin-bottom:4px;}
-.opp-box.green-box .opp-val{color:var(--green);}
-.opp-box.red-box .opp-val{color:var(--red);}
-.opp-box.blue-box .opp-val{color:var(--navy2);}
-.opp-box .opp-desc{font-size:0.82rem; color:var(--gray); line-height:1.5;}
-
-/* RECOM */
-.recom-box{background:#fff; border-radius:10px; padding:18px 20px; margin-bottom:18px; border:1px solid var(--border);}
-.recom-box h4{font-size:0.95rem; color:var(--navy2); margin-bottom:12px; display:flex; align-items:center; gap:8px;}
-.recom-item{display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; font-size:0.86rem; line-height:1.5;}
-.recom-item .badge{min-width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-size:0.72rem; font-weight:800; color:#fff; flex-shrink:0; margin-top:1px;}
-.badge.g{background:var(--green);}
-.badge.r{background:var(--red);}
-.badge.b{background:var(--navy2);}
-.badge.y{background:var(--gold); color:var(--dark);}
-
-/* TABLES */
-.two-col{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
-@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
-.tbl-wrap{background:#fff; border-radius:10px; padding:16px 18px; border:1px solid var(--border);}
-.tbl-wrap h4{font-size:0.88rem; font-weight:700; margin-bottom:10px;}
-.tbl-wrap h4.green{color:var(--green);}
-.tbl-wrap h4.red{color:var(--red);}
-table{width:100%; border-collapse:collapse; font-size:0.8rem;}
-thead th{background:var(--navy); color:#fff; padding:7px 8px; text-align:center; font-size:0.72rem; text-transform:uppercase;}
-tbody td{padding:6px 8px; border-bottom:1px solid #EEF1F6; text-align:center;}
-tbody td.left{text-align:left;}
-tbody tr:nth-child(even){background:var(--blue-bg);}
-.pill{display:inline-block; padding:2px 8px; border-radius:14px; font-weight:700; font-size:0.74rem;}
-.pill.g{background:var(--green-bg); color:var(--green);}
-.pill.r{background:var(--red-bg); color:var(--red);}
-.pill.y{background:var(--yellow-bg); color:var(--yellow-tx);}
-.divider{height:1px; background:var(--border); margin:24px 0;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Calibri,"Segoe UI",Carlito,Arial,sans-serif;background:var(--fondo);color:var(--tinta);font-size:16px;line-height:1.4}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:var(--azul-osc);color:#fff;padding:28px 0 22px;border-bottom:6px solid var(--amarillo)}
+header .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--azul-cl)}
+header h1{margin:6px 0 4px;font-size:34px;line-height:1.1}
+header h1 mark{background:var(--amarillo);color:var(--azul-osc);padding:0 8px}
+header p{margin:6px 0 0;color:#dbe7f3;max-width:820px}
+nav.tabsnav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--gris-cl);box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav.tabsnav .wrap{display:flex;gap:4px;overflow-x:auto}
+nav.tabsnav a{padding:12px 14px;color:var(--azul-osc);text-decoration:none;font-weight:700;font-size:14px;white-space:nowrap;border-bottom:3px solid transparent}
+nav.tabsnav a:hover{border-bottom-color:var(--amarillo)}
+section{padding:30px 0 6px}
+h2{font-size:24px;margin:0 0 4px;color:var(--azul-osc);display:flex;align-items:center;gap:10px}
+h2 .tag{background:var(--azul);color:#fff;font-size:12px;padding:3px 9px;border-radius:3px;letter-spacing:.06em}
+.sub{color:var(--gris-osc);margin:0 0 16px}
+.card{background:#fff;border:1px solid var(--gris-cl);border-radius:8px;padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:-34px}
+.kpi{background:#fff;border-radius:8px;padding:16px 16px 14px;border-top:5px solid var(--azul);box-shadow:0 3px 10px rgba(31,78,121,.12)}
+.kpi.v{border-top-color:var(--verde)} .kpi.y{border-top-color:var(--amarillo)}
+.kpi .big{font-size:34px;font-weight:700;color:var(--azul-osc);line-height:1}
+.kpi.v .big{color:var(--verde)}
+.kpi .lbl{font-size:13.5px;color:var(--gris-osc);margin-top:6px}
+.kpi .lbl b{color:var(--tinta)}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:12px}
+.pill.up{background:var(--verde-cl);color:var(--verde)}
+.pill.y{background:var(--amarillo-cl);color:var(--mostaza)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.seg{display:inline-flex;border:1px solid var(--azul);border-radius:6px;overflow:hidden}
+.seg button{border:0;background:#fff;color:var(--azul-osc);padding:8px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.seg button+button{border-left:1px solid var(--azul)}
+.seg button.on{background:var(--azul);color:#fff}
+.seg.yel button.on{background:var(--amarillo);color:var(--azul-osc)}
+.camgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.cam{cursor:pointer;background:#fff;border:2px solid var(--gris-cl);border-radius:8px;padding:12px 14px;text-align:left;font:inherit;color:inherit;transition:.15s}
+.cam:hover{border-color:var(--azul)}
+.cam.on{border-color:var(--azul-osc);background:var(--azul-osc);color:#fff}
+.cam .n{font-size:12px;font-weight:700;letter-spacing:.08em;background:var(--amarillo);color:var(--azul-osc);padding:1px 6px;border-radius:3px}
+.cam .t{display:block;font-size:18px;font-weight:700;margin:6px 0 2px}
+.cam .s{font-size:13px;opacity:.85}
+.chart{position:relative}
+.crow{display:grid;grid-template-columns:150px 1fr 76px;gap:10px;align-items:center;padding:5px 6px;border-radius:5px;cursor:pointer}
+.crow:hover{background:var(--amarillo-cl)}
+.crow.sel{background:var(--amarillo-cl);outline:1px solid var(--mostaza)}
+.crow .nm{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{position:relative;height:24px;background:#EEF2F6;border-radius:3px}
+.track .goal{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px dashed var(--azul-osc)}
+.track .fill{position:absolute;left:0;height:100%;border-radius:3px;transition:width .6s ease}
+.track .fill.b{background:var(--azul)} .track .fill.n{background:#C9A400} .track .fill.g{background:var(--verde)}
+.track .fill.s1{height:45%;top:0;opacity:.45}
+.track .fill.s2{height:55%;bottom:0;top:auto}
+.track.dual .fill.s1{opacity:1}
+.crow .val{text-align:right;font-weight:700;font-size:15px}
+.crow .val.g{color:var(--verde)} .crow .val.n{color:var(--mostaza)} .crow .val.b{color:var(--azul-osc)}
+.crow .badge{font-size:11px;background:var(--verde);color:#fff;border-radius:3px;padding:0 5px;margin-left:5px;vertical-align:middle}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--gris-osc);margin:2px 0 10px}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.insight{margin-top:12px;background:var(--amarillo-cl);border-left:5px solid var(--amarillo);padding:12px 14px;border-radius:4px;font-size:15px}
+.insight b{color:var(--azul-osc)}
+.two{display:grid;grid-template-columns:1.45fr 1fr;gap:16px}
+.detail h3{margin:0;color:var(--azul-osc);font-size:20px}
+.detail .hint{color:var(--gris-osc);font-size:14px}
+.mini{display:flex;align-items:flex-end;gap:4px;height:120px;margin:12px 0 4px;border-bottom:1px solid var(--gris-cl);position:relative}
+.mini .goal{position:absolute;left:0;right:0;border-top:2px dashed var(--azul-osc)}
+.mini .goal span{position:absolute;right:0;top:-17px;font-size:11px;color:var(--azul-osc)}
+.mini .d{flex:1;border-radius:3px 3px 0 0;position:relative;min-width:8px}
+.mini .d:hover::after{content:attr(data-t);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--azul-osc);color:#fff;font-size:11px;padding:3px 6px;border-radius:3px;white-space:nowrap;z-index:3;margin-bottom:4px}
+.minix{display:flex;gap:4px;font-size:10px;color:var(--gris-osc)}
+.minix span{flex:1;text-align:center;min-width:8px}
+.wins{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.wins div{background:var(--fondo);border-radius:6px;padding:8px;text-align:center}
+.wins b{display:block;font-size:22px;color:var(--verde)}
+.wins small{font-size:12px;color:var(--gris-osc)}
+ul.hl{margin:8px 0 0;padding-left:18px} ul.hl li{margin:4px 0}
+.note{margin-top:10px;font-size:13.5px;color:var(--gris-osc);border-top:1px dashed var(--gris-cl);padding-top:8px}
+.note b{color:var(--mostaza)}
+/* equipo */
+.mosaic{display:flex;height:64px;border-radius:6px;overflow:hidden;margin:10px 0 6px}
+.mosaic div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer;border-right:2px solid #fff;transition:filter .15s;text-align:center;line-height:1.1;padding:0 2px}
+.mosaic div:hover{filter:brightness(1.15)}
+.teamgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}
+.tchip{background:#fff;border:1px solid var(--gris-cl);border-left:5px solid var(--verde);border-radius:6px;padding:10px 12px;cursor:pointer}
+.tchip:hover{background:var(--amarillo-cl)}
+.tchip b{display:block;color:var(--azul-osc)}
+.tchip span{font-size:13px;color:var(--gris-osc)}
+/* growth */
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{background:var(--azul);color:#fff;text-align:left;padding:8px 10px;font-weight:700}
+th.y{background:var(--amarillo);color:var(--azul-osc)}
+td{padding:7px 10px;border-bottom:1px solid var(--gris-cl)}
+tr:hover td{background:var(--amarillo-cl)}
+td.num{text-align:right} td.g{color:var(--verde);font-weight:700} td.r{color:var(--gris-osc)}
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pod{background:#fff;border:1px solid var(--gris-cl);border-radius:8px;padding:14px;text-align:center}
+.pod .medal{font-size:13px;font-weight:700;color:var(--azul-osc);background:var(--amarillo);display:inline-block;padding:2px 10px;border-radius:12px}
+.pod b{display:block;font-size:19px;margin:8px 0 2px;color:var(--azul-osc)}
+.pod .gg{font-size:26px;font-weight:700;color:var(--verde)}
+details{background:#fff;border:1px solid var(--gris-cl);border-radius:8px;padding:12px 16px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:700;color:var(--azul-osc)}
+details ul{margin:10px 0 2px;padding-left:18px} details li{margin:5px 0}
+footer{margin:34px 0 0;padding:18px 0 30px;background:var(--azul-osc);color:#dbe7f3;font-size:13px}
+footer b{color:#fff}
+@media (max-width:860px){.camgrid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.podium{grid-template-columns:1fr}.crow{grid-template-columns:110px 1fr 64px}header h1{font-size:26px}}
+@media print{nav.tabsnav{display:none}section{break-inside:avoid}}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <h1>📋 Reporte Ejecutivo de Oportunidades — Mayo 2026</h1>
-  <p>Análisis por cafetería · Productos esenciales · Productos a eliminar · Ahorro potencial por proveedores</p>
-  <div class="top-kpis" id="topKpis"></div>
+<header>
+  <div class="wrap">
+    <div class="kicker">CocinArte · Indicadores diarios de venta · Noviembre 2026</div>
+    <h1>Dos semanas, <mark>un solo equipo</mark></h1>
+    <p>Semana 1 (1–7 nov) y semana 2 (8–14 nov) · 12 operaciones con datos cargados · Corte: martes 17 de noviembre, 7:00 a.m.</p>
+  </div>
+</header>
+<div style="height:46px;background:var(--azul-osc)"></div>
+<div class="wrap">
+  <div class="kpis" id="kpis"></div>
 </div>
 
-<div class="nav-wrap" id="navWrap"></div>
+<nav class="tabsnav"><div class="wrap">
+  <a href="#caminos">Los caminos</a><a href="#crecimiento">Crecimiento</a><a href="#sobre">Sobrecumplimiento</a><a href="#equipo">Trabajo en equipo</a><a href="#detalles">Particularidades</a>
+</div></nav>
 
-<div class="container" id="app"></div>
+<div class="wrap">
 
-<script id="rdata" type="application/json">
-{"ops": [{"op": "EAGLE", "emoji": "🦅", "ventas": 9026192.92, "num_prods": 172, "ess": [{"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 562.0, "Monto": 1601697.53, "PctIngreso": 0.1774499552797061}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 460.0, "Monto": 1310997.98, "PctIngreso": 0.14524373582744118}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 756.0, "Monto": 1247402.57, "PctIngreso": 0.13819808429266323}, {"Nombre Artículo": "CBO ALMUERZO DOS PROTEINA", "Categoría": "1COMBOS ALMUERZO SUBSIDIO", "Cant": 318.0, "Monto": 1113001.75, "PctIngreso": 0.12330799483953418}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 239.0, "Monto": 681148.95, "PctIngreso": 0.07546359312692377}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 201.0, "Monto": 572849.12, "PctIngreso": 0.06346519790538667}, {"Nombre Artículo": "1CBO DESAYUNO (SANDWICH)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 268.0, "Monto": 442200.91, "PctIngreso": 0.048990855161114816}], "ess_count": 7, "ess_monto": 6969298.8100000005, "ess_pct": 77.2, "elim": [{"Nombre Artículo": "POPI UNICORNIO", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "CUBIERTOS C50", "Categoría": "DESECHABLES", "Cant": 3.0, "Monto": 150.01}, {"Nombre Artículo": "CHOCOLATE MILAN", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 4.0, "Monto": 240.01}, {"Nombre Artículo": "EMPAQUE BIODEGR", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 3.0, "Monto": 300.02}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 6.0, "Monto": 300.02}, {"Nombre Artículo": "0FRIJOLES 120G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "0ARROZ BLANCO 200G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "3CHORIZO 80G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 410.0}, {"Nombre Artículo": "MADURO CON QUESO 70G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 425.0}, {"Nombre Artículo": "LECHE PORCION 1/4 VASO", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 449.99}, {"Nombre Artículo": "POPI BARRILETE", "Categoría": "CONFITES CHOCOLATES", "Cant": 3.0, "Monto": 449.99}, {"Nombre Artículo": "0GUARNICIONES VEG 120G", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "PLATANOS VERDES LIMON 55G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 500.0}], "elim_count": 28, "elim_monto": 17570.03, "elim_pct": 0.19}, {"op": "TRIMPOT", "emoji": "☕", "ventas": 31159092.07, "num_prods": 309, "ess": [{"Nombre Artículo": "CBO ESPECIAL", "Categoría": "MENUS ESPECIALES", "Cant": 1490.0, "Monto": 4470004.62, "PctIngreso": 0.1434574733422263}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1238.0, "Monto": 3218793.07, "PctIngreso": 0.10330188898857731}, {"Nombre Artículo": "1CBO DESAYUNO AMERICANO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1380.0, "Monto": 2553002.9, "PctIngreso": 0.08193444450385745}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 772.0, "Monto": 2007195.66, "PctIngreso": 0.06441765554306794}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 731.0, "Monto": 1900595.9100000001, "PctIngreso": 0.060996511250399864}, {"Nombre Artículo": "CBO ESPECIAL REPOSTERO", "Categoría": "CAFÉ", "Cant": 594.0, "Monto": 1782001.84, "PctIngreso": 0.05719042891226323}, {"Nombre Artículo": "CBO DESAYUNO ARMA TU COMB", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 821.0, "Monto": 1186344.01, "PctIngreso": 0.038073766954917564}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 428.0, "Monto": 1112797.58, "PctIngreso": 0.0357134148036169}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 311.0, "Monto": 808598.27, "PctIngreso": 0.025950636436499995}, {"Nombre Artículo": "CBO POSTRE ESPECIAL", "Categoría": "CAFÉ", "Cant": 264.0, "Monto": 792000.8300000001, "PctIngreso": 0.02541796879770252}], "ess_count": 21, "ess_monto": 24896646.430000003, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "CBO ALMUERZO NUEVO INGRES", "Categoría": "ALMUERZO", "Cant": 80.0, "Monto": 0.0}, {"Nombre Artículo": "CBO DESAYUNO NUEVO INGRES", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 47.0, "Monto": 0.0}, {"Nombre Artículo": "HERSHEY BESITO", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 100.01}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "MAYONESA IND C50", "Categoría": "SANDWICH", "Cant": 3.0, "Monto": 150.01}, {"Nombre Artículo": "PALITOS QUESO 35G 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "PATACONES 3 UD 70G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "HASH BROWN", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "BOCADILLOS  C400", "Categoría": "REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "GUARNICIONES ESPEC", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "TOPPING ENSALADA", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "TACO PEQUENO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "TORTILLA PALM 120G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "GINGER ALE 355ML MINIDESE", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "AGUA COCINARTE 600ML", "Categoría": "FLORIDA", "Cant": 1.0, "Monto": 650.0}], "elim_count": 47, "elim_monto": 42124.95, "elim_pct": 0.14}, {"op": "INA URUCA", "emoji": "🏫", "ventas": 14768908.61, "num_prods": 201, "ess": [{"Nombre Artículo": "1GALLO PINTO 200G", "Categoría": "DESAYUNO", "Cant": 2471.0, "Monto": 1111949.75, "PctIngreso": 0.07528990661145407}, {"Nombre Artículo": "2PF 13 TROZO PESCADO C120", "Categoría": "ALMUERZO", "Cant": 759.0, "Monto": 948745.98, "PctIngreso": 0.06423941030805796}, {"Nombre Artículo": "2PF 10 TROZO POLLO", "Categoría": "ALMUERZO", "Cant": 730.0, "Monto": 912496.13, "PctIngreso": 0.06178493984194273}, {"Nombre Artículo": "2PF 11 TROZO RES", "Categoría": "ALMUERZO", "Cant": 725.0, "Monto": 906246.1599999999, "PctIngreso": 0.061361755558997935}, {"Nombre Artículo": "2PF 12 TROZO CERDO", "Categoría": "ALMUERZO", "Cant": 602.0, "Monto": 752496.81, "PctIngreso": 0.05095141624009278}, {"Nombre Artículo": "FOODTRUCK DEL DIA", "Categoría": "FOOD TRUCK", "Cant": 138.0, "Monto": 483000.76, "PctIngreso": 0.03270388982385341}, {"Nombre Artículo": "3EMBUTIDO SOLO 80G", "Categoría": "DESAYUNO", "Cant": 1125.0, "Monto": 449997.07999999996, "PctIngreso": 0.03046921691256914}, {"Nombre Artículo": "2HUEVO FRITO 1UD", "Categoría": "DESAYUNO", "Cant": 1480.0, "Monto": 444005.47, "PctIngreso": 0.03006352613620784}, {"Nombre Artículo": "EMPANADA 130G", "Categoría": "DESAYUNO", "Cant": 590.0, "Monto": 442502.13, "PctIngreso": 0.029961735270024128}, {"Nombre Artículo": "MADURO GUARNICION", "Categoría": "DESAYUNO", "Cant": 1196.0, "Monto": 418593.9, "PctIngreso": 0.028342913552635223}], "ess_count": 33, "ess_monto": 11798224.020000001, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 100.01}, {"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "LECHE PORCION 12OZ", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "BARRA FRUTTAL FRUTAS CITR", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "CHORREADA SOLA 120G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "JUEGO CUBERTERIA C100", "Categoría": "DESECHABLES", "Cant": 6.0, "Monto": 600.04}, {"Nombre Artículo": "F MANZANA PEQ", "Categoría": "FRUTAS Y BATIDOS", "Cant": 2.0, "Monto": 699.98}, {"Nombre Artículo": "BARRITA JACKS UVA C250", "Categoría": "XCLUSIVO PULPERIA", "Cant": 2.0, "Monto": 799.99}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 900.0}, {"Nombre Artículo": "HELADO MINISANDWICH VAINI", "Categoría": "DOS PINOS", "Cant": 2.0, "Monto": 900.0}, {"Nombre Artículo": "2PF 71 ESPECIAL 2 RICE&BE", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 950.0}, {"Nombre Artículo": "QUEQUE SECO C1000", "Categoría": "XCLUSIVO POSTRES", "Cant": 1.0, "Monto": 1000.0}, {"Nombre Artículo": "COCA COLA LIGHT 600ML DES", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 1050.0}, {"Nombre Artículo": "SANDWICH PAN CUADRADO PAV", "Categoría": "SANDWICH", "Cant": 1.0, "Monto": 1100.0}, {"Nombre Artículo": "GALLETA NUTRISNACKS CHOCO", "Categoría": "GALLETAS", "Cant": 2.0, "Monto": 1200.0}], "elim_count": 32, "elim_monto": 46958.909999999996, "elim_pct": 0.32}, {"op": "EATON", "emoji": "🏭", "ventas": 18549699.29, "num_prods": 217, "ess": [{"Nombre Artículo": "1CBO 72 ESPECIAL 2 CHIFRI", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 1749.0, "Monto": 6121509.619999999, "PctIngreso": 0.3300058682514631}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 2917.0, "Monto": 5104741.539999999, "PctIngreso": 0.2751926842691151}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 528.0, "Monto": 1452001.0, "PctIngreso": 0.07827625544219804}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 442.0, "Monto": 1215500.84, "PctIngreso": 0.0655267139912757}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 293.0, "Monto": 805750.56, "PctIngreso": 0.04343739202469842}], "ess_count": 5, "ess_monto": 14699503.559999999, "ess_pct": 79.2, "elim": [{"Nombre Artículo": "CBO DESAYUNO NUEVO INGRES", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1.0, "Monto": 0.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 50.0}, {"Nombre Artículo": "BURBUJA TRANSP #6 C200", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "BANDEJA BAGAZO BLANCA", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "ING FRUTA 40G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "BARRA CRIS CRISPAS 20G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "F TROZO PAPAYA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "EMPAQUES NEGRO ENSAL", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "F TROZO PINA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "NECTAR  MIXTO FRUTAS", "Categoría": "DOS PINOS", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "BOCADILLOS  C400", "Categoría": "REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "TOSTADA TIPO PIZZA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "HALLS FRUIT MIX", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 500.0}], "elim_count": 34, "elim_monto": 16549.95, "elim_pct": 0.09}, {"op": "AMAZON SJO05", "emoji": "📦", "ventas": 1465848.73, "num_prods": 101, "ess": [{"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 134.0, "Monto": 234499.61, "PctIngreso": 0.1599753134145022}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 56.0, "Monto": 196000.31, "PctIngreso": 0.13371114357755046}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 74.0, "Monto": 185000.05, "PctIngreso": 0.12620678124133586}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 51.0, "Monto": 127500.04, "PctIngreso": 0.08698035301364282}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 59.0, "Monto": 88499.76, "PctIngreso": 0.06037441530545924}, {"Nombre Artículo": "1CBO DESAYUNO (QUESO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 58.0, "Monto": 86999.76, "PctIngreso": 0.05935111735574516}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 28.0, "Monto": 70000.02, "PctIngreso": 0.04775391796396345}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 26.0, "Monto": 65000.02, "PctIngreso": 0.04434292479824981}, {"Nombre Artículo": "COCA COLA REGULAR 355ML L", "Categoría": "COCA COLA", "Cant": 48.0, "Monto": 47000.18, "PctIngreso": 0.032063458553462064}, {"Nombre Artículo": "0ENSALADA PEQ 130G", "Categoría": "ALMUERZO", "Cant": 55.0, "Monto": 32999.79, "PctIngreso": 0.022512411631996982}], "ess_count": 11, "ess_monto": 1165999.55, "ess_pct": 79.5, "elim": [{"Nombre Artículo": "SALSA PORCION 30G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 2.0, "Monto": 200.01}, {"Nombre Artículo": "GALLETA MANTEQUILLA 26G", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 325.0}, {"Nombre Artículo": "TOSTADA C QUES 40GR", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "3CHORIZO 80G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "PAPAS KITTY CREMA CEBOLLA", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "PAN BAGET RODAJA", "Categoría": "DESAYUNO", "Cant": 5.0, "Monto": 500.03}, {"Nombre Artículo": "HIC MANZANA 250ML", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "HIC UVA 250ML", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "GALLETA NUTRISNACKS CHOCO", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "GALLETA CREMITAS", "Categoría": "GALLETAS", "Cant": 2.0, "Monto": 650.0}, {"Nombre Artículo": "GALLETA NUTRISNACKS MANZA", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "TROPICAL TE MELOCOTON 350", "Categoría": "FLORIDA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "3SALCHICHA 1UD 40G", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 699.99}], "elim_count": 18, "elim_monto": 9325.03, "elim_pct": 0.64}, {"op": "AMAZON SJO10", "emoji": "📦", "ventas": 15190621.32, "num_prods": 229, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 629.0, "Monto": 2201503.46, "PctIngreso": 0.14492517545029554}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 788.0, "Monto": 1970000.5499999998, "PctIngreso": 0.12968531757198723}, {"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1057.0, "Monto": 1849746.94, "PctIngreso": 0.12176901135469816}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 430.0, "Monto": 1075000.31, "PctIngreso": 0.07076736937577745}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 593.0, "Monto": 889497.56, "PctIngreso": 0.05855570626521286}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 304.0, "Monto": 760000.21, "PctIngreso": 0.05003088379271112}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 294.0, "Monto": 735000.2000000001, "PctIngreso": 0.04838513083281837}, {"Nombre Artículo": "1CBO 22 VEGETARIANO COMPU", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 175.0, "Monto": 437500.11000000004, "PctIngreso": 0.028800672519167243}, {"Nombre Artículo": "COCA COLA ZERO 355ML LATA", "Categoría": "COCA COLA", "Cant": 309.0, "Monto": 297300.9, "PctIngreso": 0.01957134561761296}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 83.0, "Monto": 207500.05, "PctIngreso": 0.013659747394716834}], "ess_count": 23, "ess_monto": 12150696.68, "ess_pct": 80.0, "elim": [{"Nombre Artículo": "CBO DESAYUNO", "Categoría": "PERSONAL", "Cant": 46.0, "Monto": 0.0}, {"Nombre Artículo": "CBO1PERSONAL ALMUERZO", "Categoría": "PERSONAL", "Cant": 3.0, "Monto": 0.0}, {"Nombre Artículo": "TOCINETA", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 7.0, "Monto": 350.02}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "TOSTADA ITAL C 40G QSO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "TORTILLA TORTIRICA", "Categoría": "SANDWICH", "Cant": 4.0, "Monto": 500.0}, {"Nombre Artículo": "JUGO DEL VALLE MANZANA 33", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "PATACONES 3 UD 70G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "FANTA NARANJA 355ML MINID", "Categoría": "COCA COLA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "LECHE DESCREMADA 250ML", "Categoría": "DOS PINOS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "CANGREJO ARREGLADO", "Categoría": "SANDWICH", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "PALITOS QUESO 35G 1UD", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 699.98}, {"Nombre Artículo": "PALITOS INTEGRALES DE QUE", "Categoría": "XCLUSIVO PULPERIA", "Cant": 1.0, "Monto": 700.0}], "elim_count": 35, "elim_monto": 31349.910000000003, "elim_pct": 0.21}, {"op": "AMAZON SJO11", "emoji": "📦", "ventas": 15624061.71, "num_prods": 186, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 711.0, "Monto": 2488503.91, "PctIngreso": 0.15927381472176738}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 826.0, "Monto": 2065000.58, "PctIngreso": 0.1321679738808456}, {"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 854.0, "Monto": 1494497.52, "PctIngreso": 0.09565358533136516}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 503.0, "Monto": 1257500.35, "PctIngreso": 0.08048485556064794}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 383.0, "Monto": 957500.27, "PctIngreso": 0.06128369740034776}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 296.0, "Monto": 740000.2, "PctIngreso": 0.047362856966084006}, {"Nombre Artículo": "1CBO 20 ARROZ COMPUESTO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 255.0, "Monto": 637500.1799999999, "PctIngreso": 0.0408024617306763}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 380.0, "Monto": 569998.44, "PctIngreso": 0.03648209092999031}, {"Nombre Artículo": "COCA COLA ZERO 355ML LATA", "Categoría": "COCA COLA", "Cant": 383.0, "Monto": 370701.22, "PctIngreso": 0.023726302857773336}, {"Nombre Artículo": "CBO DESAYUNO SIN CARBOS", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 234.0, "Monto": 350999.04, "PctIngreso": 0.022465287613101726}], "ess_count": 18, "ess_monto": 12488500.440000001, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "SALSA DE QUESO C125", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 125.0}, {"Nombre Artículo": "TOMATE UD 25G C50", "Categoría": "SANDWICH", "Cant": 2.0, "Monto": 150.0}, {"Nombre Artículo": "LECHE PORCION 1/4 VASO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "KRONCHITAS KITTY", "Categoría": "XCLUSIVO PULPERIA", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "HELADO MINISANDWICH VAINI", "Categoría": "DOS PINOS", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "CEREAL + LECHE", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "BISCOLITE PICANTE NUTRISN", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "F MANZANA VERDE", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "TORTILLA PALM 120G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 650.0}, {"Nombre Artículo": "TORTA DE CARNE", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 799.99}, {"Nombre Artículo": "BOLSA PAPEL", "Categoría": "DESECHABLES", "Cant": 34.0, "Monto": 849.85}, {"Nombre Artículo": "TROPICAL TE VERDE MANZANA", "Categoría": "FLORIDA", "Cant": 1.0, "Monto": 900.0}, {"Nombre Artículo": "CHOCOLATE SNICKERS ALMEND", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 950.0}, {"Nombre Artículo": "2PF 71 ESPECIAL 2 RICE&BE", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 950.0}], "elim_count": 28, "elim_monto": 24874.940000000002, "elim_pct": 0.16}, {"op": "AMAZON SJO16", "emoji": "📦", "ventas": 10061982.129999999, "num_prods": 175, "ess": [{"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 949.0, "Monto": 1660747.25, "PctIngreso": 0.1650516994110384}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 359.0, "Monto": 897500.25, "PctIngreso": 0.08919716199098436}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 576.0, "Monto": 863997.64, "PctIngreso": 0.08586753870531869}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 246.0, "Monto": 861001.35, "PctIngreso": 0.08556975542949011}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 282.0, "Monto": 705000.2, "PctIngreso": 0.07006573763414146}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 242.0, "Monto": 605000.17, "PctIngreso": 0.06012733497072907}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 169.0, "Monto": 422500.12, "PctIngreso": 0.04198975058207542}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 97.0, "Monto": 242500.07, "PctIngreso": 0.024100626185469085}, {"Nombre Artículo": "1CBO 20 ARROZ COMPUESTO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 78.0, "Monto": 195000.05, "PctIngreso": 0.01937988434889021}, {"Nombre Artículo": "CBO DESAYUNO SIN CARBOS", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 122.0, "Monto": 182999.5, "PctIngreso": 0.01818722172586486}], "ess_count": 21, "ess_monto": 8028393.19, "ess_pct": 79.8, "elim": [{"Nombre Artículo": "BOLSA PAPEL", "Categoría": "DESECHABLES", "Cant": 7.0, "Monto": 174.97}, {"Nombre Artículo": "ENSALADA GOURMET FUSION", "Categoría": "XCLUSIVO ENSALADAS", "Cant": 1.0, "Monto": 290.0}, {"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "F MANZANA PEQ", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 6.0, "Monto": 300.02}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "2TORTA DE HUEVO 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "TOSTADA TIPO PIZZA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "HALLS LIMON", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 6.0, "Monto": 600.03}, {"Nombre Artículo": "SORBETO FESTIVAL NARANJA", "Categoría": "GALLETAS", "Cant": 2.0, "Monto": 650.0}, {"Nombre Artículo": "PUPUSAS F/Q/CH ARREG C750", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 750.0}, {"Nombre Artículo": "2VASO 12ONZ CON TAPA", "Categoría": "DESECHABLES", "Cant": 4.0, "Monto": 799.99}, {"Nombre Artículo": "TUTTO", "Categoría": "CONFITES CHOCOLATES", "Cant": 1.0, "Monto": 850.0}, {"Nombre Artículo": "PANIFICACION DULCE", "Categoría": "REPOSTERIA", "Cant": 1.0, "Monto": 850.0}], "elim_count": 27, "elim_monto": 21314.989999999998, "elim_pct": 0.21}, {"op": "AMAZON SJO19", "emoji": "📦", "ventas": 6494847.4, "num_prods": 163, "ess": [{"Nombre Artículo": "CBO DESAYUNO + 3 ACOMPAÑA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 574.0, "Monto": 1004498.3400000001, "PctIngreso": 0.15466080696522602}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 177.0, "Monto": 619500.97, "PctIngreso": 0.09538345273516358}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 227.0, "Monto": 567500.16, "PctIngreso": 0.08737698132830651}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 173.0, "Monto": 432500.12, "PctIngreso": 0.06659126740991636}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 269.0, "Monto": 403498.9, "PctIngreso": 0.06212600160551887}, {"Nombre Artículo": "1CBO 14 COMPUESTO", "Categoría": "1COMBOS ALMUERZO SUBSIDIO", "Cant": 146.0, "Monto": 365000.1, "PctIngreso": 0.05619841045072129}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 114.0, "Monto": 285000.07999999996, "PctIngreso": 0.04388095092118715}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 111.0, "Monto": 277500.07999999996, "PctIngreso": 0.04272618937898371}, {"Nombre Artículo": "CBO DESAYUNO SIN CARBOS", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 156.0, "Monto": 233999.37, "PctIngreso": 0.03602846311677777}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 61.0, "Monto": 152500.04, "PctIngreso": 0.023480157516864834}], "ess_count": 18, "ess_monto": 5158247.740000001, "ess_pct": 79.4, "elim": [{"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "PAN BAGET RODAJA", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 200.01}, {"Nombre Artículo": "TORTILLA TORTIRICA", "Categoría": "SANDWICH", "Cant": 2.0, "Monto": 250.0}, {"Nombre Artículo": "GALLETA MARIA 21G", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 2.0, "Monto": 250.0}, {"Nombre Artículo": "F MANZANA PEQ", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "3SALCHICHA 1UD 40G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "2VASO 12ONZ CON TAPA", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "PAPAS TOSTADAS 30G SOFI", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 8.0, "Monto": 400.02}, {"Nombre Artículo": "QUESO FRITO 50G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 450.0}, {"Nombre Artículo": "TOSTADA ITAL C QSO 40G", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "ROSQUILLAS MAIZ QSO CHEDD", "Categoría": "XCLUSIVO PULPERIA", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "PRENSADA DE JAMON", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "ROSQUILLAS TRADIC MAIZ", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 550.0}], "elim_count": 25, "elim_monto": 11950.02, "elim_pct": 0.18}, {"op": "BAC COSTA RICA", "emoji": "🏦", "ventas": 17813765.85, "num_prods": 214, "ess": [{"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 2145.0, "Monto": 3860999.1399999997, "PctIngreso": 0.2167424435973486}, {"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 588.0, "Monto": 2058003.23, "PctIngreso": 0.11552881335307323}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1088.0, "Monto": 1577605.12, "PctIngreso": 0.08856101137087753}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 664.0, "Monto": 1527201.33, "PctIngreso": 0.08573152599286017}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 467.0, "Monto": 1074100.94, "PctIngreso": 0.06029611868958072}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 356.0, "Monto": 818800.71, "PctIngreso": 0.04596449267912657}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 329.0, "Monto": 756700.66, "PctIngreso": 0.04247842182117825}, {"Nombre Artículo": "1ACOMPAÑAMIENTO ADICIONAL", "Categoría": "ALMUERZO", "Cant": 2173.0, "Monto": 651908.04, "PctIngreso": 0.0365957454189845}, {"Nombre Artículo": "0ENSALADA PEQ 130G", "Categoría": "ALMUERZO", "Cant": 482.0, "Monto": 289198.12, "PctIngreso": 0.016234530218662325}, {"Nombre Artículo": "1CBO DESAYUNO (QUESO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 194.0, "Monto": 281300.91, "PctIngreso": 0.015791209583009082}], "ess_count": 17, "ess_monto": 14170716.600000001, "ess_pct": 79.5, "elim": [{"Nombre Artículo": "2VASO 12ONZ SIN TAPA C150", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "TAJADA PAN CUADRADO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 200.0}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "GALLETA CHIKY CHOCOLATE 4", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 325.0}, {"Nombre Artículo": "FRUTA EXOTICA ADICIONAL", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "TOCINETA", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "F BANANO", "Categoría": "FRUTAS Y BATIDOS", "Cant": 4.0, "Monto": 400.02}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 8.0, "Monto": 400.03}, {"Nombre Artículo": "PAPAS OND VOLCAN CREMA Y", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 500.0}, {"Nombre Artículo": "TORTILLA TORTIRICA", "Categoría": "SANDWICH", "Cant": 5.0, "Monto": 500.03}, {"Nombre Artículo": "TOPPING ENSALADA", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 550.0}, {"Nombre Artículo": "TOSTADA C MANT", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 600.0}, {"Nombre Artículo": "2OMELLET 1 HUEVO C/TODO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 600.0}, {"Nombre Artículo": "ING FRUTA 40G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 2.0, "Monto": 600.01}], "elim_count": 32, "elim_monto": 20800.089999999997, "elim_pct": 0.12}, {"op": "REGISTRO NACIONAL", "emoji": "🏛️", "ventas": 8519450.35, "num_prods": 209, "ess": [{"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 692.0, "Monto": 1280201.45, "PctIngreso": 0.15026808038150016}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 276.0, "Monto": 786598.79, "PctIngreso": 0.0923297581046411}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 275.0, "Monto": 783748.79, "PctIngreso": 0.09199522948097232}, {"Nombre Artículo": "1CBO 73 ESPECIAL 4 SOPA", "Categoría": "ALMUERZO", "Cant": 161.0, "Monto": 515200.29, "PctIngreso": 0.06047341892191436}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 175.0, "Monto": 498749.23, "PctIngreso": 0.05854241876061874}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 145.0, "Monto": 413249.36, "PctIngreso": 0.048506575309755745}, {"Nombre Artículo": "CBO ALMUERZO ECONOMICO", "Categoría": "1COMBOS ALMUERZO SUBSIDIO", "Cant": 160.0, "Monto": 359999.92, "PctIngreso": 0.042256237809989695}, {"Nombre Artículo": "1CBO 22 VEGETARIANO COMPU", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 54.0, "Monto": 153899.76, "PctIngreso": 0.018064517507282614}, {"Nombre Artículo": "1CBO 71 ESPECIAL 2 RICE &", "Categoría": "ALMUERZO", "Cant": 46.0, "Monto": 147200.08, "PctIngreso": 0.017278119356608487}, {"Nombre Artículo": "1GALLO PINTO 200G", "Categoría": "DESAYUNO", "Cant": 275.0, "Monto": 137500.66, "PctIngreso": 0.016139616330999567}], "ess_count": 30, "ess_monto": 6808896.430000002, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "1MADURO", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 0.0}, {"Nombre Artículo": "TAJADA PAN BAGUETTE", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 100.01}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 3.0, "Monto": 150.01}, {"Nombre Artículo": "TOPPING FRUTAS", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "MIEL/JALEA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 300.02}, {"Nombre Artículo": "SORBETO FESTIVAL VAINILLA", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 325.0}, {"Nombre Artículo": "EMPAQUES NEGRO ENSAL", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "1QUESO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "GRANADILLA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "LECHE PORCION 12OZ", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "TRONADITAS CON LIMÓN 175G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 375.0}, {"Nombre Artículo": "PLATANOS MADUROS 45G GOLD", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "PLATANITOS MADUROS 50G", "Categoría": "SNACKS REPOSTERIA", "Cant": 1.0, "Monto": 400.0}], "elim_count": 32, "elim_monto": 15750.0, "elim_pct": 0.18}, {"op": "DERECHO UCR", "emoji": "⚖️", "ventas": 11261092.57, "num_prods": 283, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 1044.0, "Monto": 2871001.98, "PctIngreso": 0.25494879490187866}, {"Nombre Artículo": "1CBO 10 TROZO POLLO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 418.0, "Monto": 1003198.21, "PctIngreso": 0.08908533552708375}, {"Nombre Artículo": "1CBO 11 TROZO RES", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 410.0, "Monto": 983998.24, "PctIngreso": 0.08738035265080855}, {"Nombre Artículo": "1CBO DESAYUNO (HUEVO)", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 402.0, "Monto": 602998.35, "PctIngreso": 0.053547055603326774}, {"Nombre Artículo": "1CBO FULL DESAYUNO", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 251.0, "Monto": 451799.89, "PctIngreso": 0.040120431227393775}, {"Nombre Artículo": "1CBO 13 TROZO PESCADO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 171.0, "Monto": 410399.26, "PctIngreso": 0.036444000211251264}, {"Nombre Artículo": "1CBO 12 TROZO CERDO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 143.0, "Monto": 343199.38, "PctIngreso": 0.03047656147630798}, {"Nombre Artículo": "CALZONE/PASTELILLOS", "Categoría": "REPOSTERIA", "Cant": 306.0, "Monto": 275399.94, "PctIngreso": 0.024455881015815147}, {"Nombre Artículo": "1CBO 22 VEGETARIANO COMPU", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 114.0, "Monto": 273599.51, "PctIngreso": 0.02429600043683861}, {"Nombre Artículo": "1CBO 20 ARROZ COMPUESTO", "Categoría": "1COMBOS ALMUERZO EATON", "Cant": 70.0, "Monto": 167999.7, "PctIngreso": 0.014918596837358208}], "ess_count": 29, "ess_monto": 8995292.54, "ess_pct": 79.9, "elim": [{"Nombre Artículo": "CBO3PERSONAL ALMUERZO", "Categoría": "PERSONAL", "Cant": 47.0, "Monto": 0.0}, {"Nombre Artículo": "CBO DESAYUNO", "Categoría": "PERSONAL", "Cant": 2.0, "Monto": 0.0}, {"Nombre Artículo": "LIMON 1/4 C50", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 100.01}, {"Nombre Artículo": "JUEGO CUBERTERIA C100", "Categoría": "DESECHABLES", "Cant": 2.0, "Monto": 200.01}, {"Nombre Artículo": "TOMATE UD 25G C50", "Categoría": "SANDWICH", "Cant": 3.0, "Monto": 225.0}, {"Nombre Artículo": "ING FRUTA 40G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "F NARANJA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "TAJADA PAN BAGUETTE", "Categoría": "DESAYUNO", "Cant": 3.0, "Monto": 300.02}, {"Nombre Artículo": "GRANADILLA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "GALLETA CANASTA GUAYABA", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "PALITOS QUESO 35G 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "TOSTADA C MANT/JALEA", "Categoría": "CAFÉ", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "PICO DE GALLO 50G C150", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "BANDEJA BAGAZO BLANCA", "Categoría": "DESECHABLES", "Cant": 3.0, "Monto": 449.99}, {"Nombre Artículo": "F TROZO PINA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 450.0}], "elim_count": 42, "elim_monto": 23599.96, "elim_pct": 0.21}, {"op": "GENERALES UCR", "emoji": "🎓", "ventas": 28439842.66, "num_prods": 343, "ess": [{"Nombre Artículo": "1CBO 70 ESPECIAL 1", "Categoría": "ALMUERZO", "Cant": 2123.0, "Monto": 5307501.4799999995, "PctIngreso": 0.18662204089704343}, {"Nombre Artículo": "2PF 11 TROZO RES", "Categoría": "ALMUERZO", "Cant": 1004.0, "Monto": 2133498.91, "PctIngreso": 0.07501795757121817}, {"Nombre Artículo": "2PF 10 TROZO POLLO", "Categoría": "ALMUERZO", "Cant": 862.0, "Monto": 1831749.06, "PctIngreso": 0.0644078478878617}, {"Nombre Artículo": "PANIFICACION SALADA", "Categoría": "REPOSTERIA", "Cant": 1462.0, "Monto": 1242696.06, "PctIngreso": 0.043695602498807926}, {"Nombre Artículo": "2PF 13 TROZO PESCADO C120", "Categoría": "ALMUERZO", "Cant": 554.0, "Monto": 1177249.3900000001, "PctIngreso": 0.04139437070992573}, {"Nombre Artículo": "CBO DESAYUNO + 2 ACOMPAÑA", "Categoría": "DESAYUNO", "Cant": 683.0, "Monto": 1126952.33, "PctIngreso": 0.03962582857692927}, {"Nombre Artículo": "CBO MERIENDA", "Categoría": "1COMBOS DESAYUNO SUBSIDIO", "Cant": 709.0, "Monto": 836621.78, "PctIngreso": 0.02941724361846382}, {"Nombre Artículo": "2PF 12 TROZO CERDO", "Categoría": "ALMUERZO", "Cant": 277.0, "Monto": 588624.6900000001, "PctIngreso": 0.02069718517915317}, {"Nombre Artículo": "2PF 22 VEGETARIANO COMPUE", "Categoría": "ALMUERZO", "Cant": 223.0, "Monto": 473874.77, "PctIngreso": 0.016662355543425503}, {"Nombre Artículo": "PANIFICACION DULCE", "Categoría": "REPOSTERIA", "Cant": 540.0, "Monto": 458998.54, "PctIngreso": 0.016139278458300727}], "ess_count": 40, "ess_monto": 22657318.630000003, "ess_pct": 79.7, "elim": [{"Nombre Artículo": "SANDWICH PERSONAL", "Categoría": "PERSONAL", "Cant": 1.0, "Monto": 0.0}, {"Nombre Artículo": "CUCHARA BIODEGRADABLE", "Categoría": "XCLUSIVO DESECHABLES", "Cant": 1.0, "Monto": 25.0}, {"Nombre Artículo": "TORTIRICA 1UD", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 100.01}, {"Nombre Artículo": "SALSA DE QUESO C125", "Categoría": "CAFÉ", "Cant": 1.0, "Monto": 125.0}, {"Nombre Artículo": "ADEREZO PORCION C150", "Categoría": "ALMUERZO", "Cant": 1.0, "Monto": 150.0}, {"Nombre Artículo": "BANDEJA COMP 8*8", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 250.0}, {"Nombre Artículo": "POPI UNICORNIO", "Categoría": "CONFITES CHOCOLATES", "Cant": 2.0, "Monto": 299.99}, {"Nombre Artículo": "TOSTADA FRANC C MIEL", "Categoría": "DESAYUNO", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "F NARANJA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 300.0}, {"Nombre Artículo": "EMPAQUES NEGRO ENSAL", "Categoría": "DESECHABLES", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "YOGURT 60G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 349.99}, {"Nombre Artículo": "PAN AJO/CENA GUARN 1UD", "Categoría": "ALMUERZO", "Cant": 2.0, "Monto": 400.0}, {"Nombre Artículo": "F TROZO PINA 200G", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "GALLETA TOSH YOGURT ARAND", "Categoría": "GALLETAS", "Cant": 1.0, "Monto": 400.0}, {"Nombre Artículo": "F GUAYABA", "Categoría": "FRUTAS Y BATIDOS", "Cant": 1.0, "Monto": 500.0}], "elim_count": 52, "elim_monto": 33580.0, "elim_pct": 0.12}], "total_ahorro_proveedores": 7491681.690449674, "gasto_comparable": 109850251.2378, "top_ahorro_global": [{"Insumo": "PLATANO MADURO 1ud", "MejorProveedor": "VERDULERIA FAMOSA", "AhorroPotencial": 492144.0800000001}, {"Insumo": "MUSLO ENTERO 1kg", "MejorProveedor": "WALMART/ MAS X MENOS", "AhorroPotencial": 370290.9984376851}, {"Insumo": "PAPA CORTE RECTO 3/8pulg, PQT 5UD, 2kg", "MejorProveedor": "MAYCA FOOD SERVICE", "AhorroPotencial": 347332.7588}, {"Insumo": "AGUACATE 1kg", "MejorProveedor": "GRETHEL MORA PALACIOS", "AhorroPotencial": 287313.1402}, {"Insumo": "POSTA RES P/MECHAR 1kg CI", "MejorProveedor": "CIISA FOOD SERVICES", "AhorroPotencial": 238773.63691626582}], "total_grupo": 188375405.60999998, "total_elim_grupo": 315748.77999999997}
-</script>
+<!-- CAMINOS -->
+<section id="caminos">
+  <h2><span class="tag">CAMINOS</span> Cómo vamos en cada camino hacia la meta</h2>
+  <p class="sub">Toque un camino, escoja la semana y haga clic en cualquier operación para ver su detalle día por día.</p>
+  <div class="camgrid" id="camgrid"></div>
+  <div class="controls">
+    <div class="seg" id="weekseg">
+      <button data-w="0">Semana 1</button><button data-w="1" class="on">Semana 2</button><button data-w="2">Las dos</button>
+    </div>
+    <div class="legend" id="legend"></div>
+  </div>
+  <div class="two">
+    <div class="card"><div class="chart" id="chart"></div><div class="insight" id="insight"></div></div>
+    <div class="card detail" id="detail"></div>
+  </div>
+</section>
+
+<!-- CRECIMIENTO -->
+<section id="crecimiento">
+  <h2><span class="tag">CRECIMIENTO</span> De la semana 1 a la semana 2</h2>
+  <p class="sub">Lo que subió entre semanas. Ordene la tabla tocando cualquier encabezado.</p>
+  <div class="podium" id="podium"></div>
+  <div class="card" style="margin-top:12px;overflow-x:auto">
+    <table id="growthTable"></table>
+  </div>
+</section>
+
+<!-- SOBRECUMPLIMIENTO -->
+<section id="sobre">
+  <h2><span class="tag">SOBRECUMPLIMIENTO</span> Días en que superamos la meta</h2>
+  <p class="sub">Cada cuadrito es un día trabajado (1 al 14 de noviembre). Verde = ese día se superó la meta del camino elegido.</p>
+  <div class="controls"><div class="seg yel" id="winseg">
+    <button data-k="1" class="on">Transacciones</button><button data-k="3">Ticket promedio</button><button data-k="4">Venta del día</button>
+  </div><span id="wintotal" class="pill up" style="font-size:14px"></span></div>
+  <div class="card" id="wingrid"></div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <h2><span class="tag">EQUIPO</span> Lo logramos entre todos</h2>
+  <p class="sub">Clientes atendidos en las dos semanas: cada operación aporta su parte al resultado del grupo. Pase el cursor o toque un bloque.</p>
+  <div class="card">
+    <div class="mosaic" id="mosaic"></div>
+    <div id="mosaicInfo" class="hint" style="font-size:14px;color:var(--gris-osc)">Toque un bloque para ver el aporte de cada operación.</div>
+    <div class="insight" id="teamInsight"></div>
+  </div>
+  <div class="teamgrid" id="teamgrid"></div>
+</section>
+
+<!-- PARTICULARIDADES -->
+<section id="detalles">
+  <h2><span class="tag">PARTICULARIDADES</span> Lo que vale la pena revisar juntos</h2>
+  <p class="sub">Datos que llaman la atención o que conviene confirmar en la hoja. Ninguno cambia la tendencia del grupo.</p>
+  <div id="notes"></div>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <b>Fuente:</b> hoja «NOVIEMBRE 2026» de cada archivo «Indicadores diarios de venta» en Drive (resumen semanal y filas diarias), leídos el 17/11/2026 a las 7:00 a.m.<br>
+  <b>Cálculos:</b> % de cumplimiento = resultado real ÷ meta de los días digitados de esa semana (así lo calcula cada hoja). Ticket del grupo = venta total con IVA ÷ transacciones totales de las 12 operaciones. Cobertura = transacciones ÷ personas en el site; solo es real en Amazon (Amazon comparte el conteo diario), en las demás operaciones las personas son un estimado.<br>
+  <b>Registro Nacional:</b> su hoja de noviembre aún no tiene datos al corte, por eso no aparece en los gráficos.
+</div></footer>
+
 <script>
-const D = JSON.parse(document.getElementById('rdata').textContent);
-const fmt = n => '₡' + Math.round(n).toLocaleString('es-CR');
-const fmtN = n => Math.round(n).toLocaleString('es-CR');
-const fmtP = n => n.toFixed(1) + '%';
+const OPS = {"Align": {"w": [{"t": 5978, "mt": 6057, "v": 11308128, "mv": 13243909, "k": 1892, "mk": 2150, "cob": null}, {"t": 5740, "mt": 5930, "v": 11148329, "mv": 13588406, "k": 1942, "mk": 2150, "cob": null}], "hl": ["Transacciones a un paso de la meta: 98.7% y 96.8%.", "5 días sobre la meta de clientes (4, 5, 10, 11 y 12 de nov).", "Ticket sube ₡50: de ₡1,892 a ₡1,942; mejor día lun 09/11 con ₡2,046."], "note": "Falta cargar el sábado 14/11.", "team": "La operación con más clientes del grupo"}, "AbbVie": {"w": [{"t": 3218, "mt": 3070, "v": 7198105, "mv": 7294792, "k": 2237, "mk": 2370, "cob": null}, {"t": 3109, "mt": 3070, "v": 7118903, "mv": 7385251, "k": 2290, "mk": 2370, "cob": null}], "hl": ["Transacciones sobre la meta las dos semanas: 104.8% y 101.3%.", "Los dos sábados vendieron sobre la meta (105.5% y 105.4%).", "Ticket sube ₡53; el 11/11 llegó a ₡2,630 (111% de la meta)."], "note": null, "team": "Clientes sobre la meta las 2 semanas"}, "BAC": {"w": [{"t": 2071, "mt": 3250, "v": 4098604, "mv": 4776406, "k": 1979, "mk": 2100, "cob": 41.4}, {"t": 1834, "mt": 2600, "v": 3775054, "mv": 4010191, "k": 2058, "mk": 2100, "cob": 45.9}], "hl": ["Venta sube de 85.8% a 94.1% de la meta.", "Ticket sube ₡79 y queda a 98% de la meta (₡2,058).", "Transacciones suben 6.8 puntos."], "note": "Falta cargar el viernes 13/11. El domingo 01/11 y los fines de semana desde el 21/11 están marcados «SÍ abre».", "team": "Sube en venta, ticket y clientes"}, "Amazon SJO10": {"w": [{"t": 1808, "mt": 2047, "v": 3634493, "mv": 4474557, "k": 2010, "mk": 2200, "cob": 57.4}, {"t": 1833, "mt": 2271, "v": 3907223, "mv": 4750930, "k": 2132, "mk": 2200, "cob": 52.5}], "hl": ["Ticket sube ₡122: de ₡2,010 a ₡2,132 (96.9% de la meta).", "Mar 10/11: ticket de ₡2,280, sobre la meta.", "Venta de la semana 2 crece 7.5% sobre la semana 1. En octubre cerró en 113% de su meta."], "note": null, "team": "Ticket +₡122 en una semana"}, "Amazon SJO11": {"w": [{"t": 2455, "mt": 2200, "v": 5212350, "mv": 4620000, "k": 2123, "mk": 2200, "cob": 69.8}, {"t": 1981, "mt": 2200, "v": 4495026, "mv": 4620000, "k": 2269, "mk": 2200, "cob": 60.9}], "hl": ["Semana 1: venta 112.8% y transacciones 111.6% de la meta.", "Semana 2: ticket de ₡2,269, 103.1% de la meta.", "6 días con venta sobre la meta; ya lleva el 50% de la meta del mes."], "note": null, "team": "Arrancó el mes sobre la meta"}, "Amazon SJO16": {"w": [{"t": 1389, "mt": 2749, "v": 3160295, "mv": 3248356, "k": 2275, "mk": 2200, "cob": 32.8}, {"t": 1124, "mt": 2468, "v": 2471670, "mv": 3522303, "k": 2199, "mk": 2200, "cob": 29.6}], "hl": ["Ticket en la meta las dos semanas: ₡2,275 (103.4%) y ₡2,199 (100.0%).", "6 días con ticket sobre la meta.", "Venta de la semana 1 en 97.3% de la meta."], "note": "La celda del título de la hoja dice «732». El sábado 07/11 está marcado «NO abre» pero tiene datos idénticos a los del martes 10/11.", "team": "Ticket en meta las 2 semanas"}, "Amazon SJO19": {"w": [{"t": 716, "mt": 467, "v": 1173700, "mv": 1456255, "k": 1639, "mk": 2200, "cob": 99.6}, {"t": 590, "mt": 557, "v": 1318974, "mv": 1555049, "k": 2236, "mk": 2200, "cob": 68.7}], "hl": ["Transacciones sobre la meta las dos semanas (153.3% y 105.9%).", "Cobertura sobre el 65% las dos semanas: 99.6% y 68.7%.", "Ticket sube a ₡2,236 en la semana 2 (101.6% de la meta)."], "note": "El 03/11 y el 06/11 tienen muchas transacciones con ticket muy bajo (₡943 y ₡1,333): conviene confirmar la digitación.", "team": "Cobertura y clientes sobre la meta"}, "Eaton": {"w": [{"t": 2148, "mt": 2153, "v": 5090451, "mv": 5138838, "k": 2370, "mk": 2381, "cob": null}, {"t": 2103, "mt": 2153, "v": 4664725, "mv": 5215938, "k": 2218, "mk": 2381, "cob": null}], "hl": ["Transacciones a un paso: 99.8% y 97.7%.", "Semana 1: venta 99.1% y ticket 99.5% de la meta.", "Sábado 14/11: venta 150% de la meta y ticket ₡2,600."], "note": "Viernes 13/11 fue atípico: venta 40.6% de la meta y ticket ₡1,476.", "team": "Casi en meta en 3 caminos"}, "Eagle": {"w": [{"t": 1102, "mt": 1390, "v": 2565425, "mv": 2432550, "k": 2328, "mk": 2200, "cob": 79.3}, {"t": 1089, "mt": 1470, "v": 2448605, "mv": 2436938, "k": 2248, "mk": 2200, "cob": 74.1}], "hl": ["Venta sobre la meta las dos semanas: 105.5% y 100.5%.", "Ticket sobre la meta las dos semanas: ₡2,328 y ₡2,248.", "8 de 10 días con venta sobre la meta; el lun 16/11 abrió la semana 3 con 122%."], "note": null, "team": "Venta y ticket sobre la meta"}, "Trimpot": {"w": [{"t": 4001, "mt": 3998, "v": 10243999, "mv": 9687485, "k": 2560, "mk": 2403, "cob": null}, {"t": 4307, "mt": 3998, "v": 9744603, "mv": 9896099, "k": 2263, "mk": 2403, "cob": null}], "hl": ["Transacciones sobre la meta las dos semanas: 100.1% y 107.7%.", "Semana 1: venta 105.7% y ticket 106.5% de la meta.", "Jue 12/11: venta 117.1% y ticket ₡2,682."], "note": "El jueves 05/11 tiene un ticket de ₡3,899 (venta 163% de la meta): confirmar si fue un pedido o evento especial.", "team": "Clientes sobre la meta las 2 semanas"}, "UCR Generales": {"w": [{"t": 2878, "mt": 3703, "v": 5006246, "mv": 7649316, "k": 1739, "mk": 2000, "cob": 48.0}, {"t": 2262, "mt": 2864, "v": 4068001, "mv": 6537087, "k": 1798, "mk": 2000, "cob": 56.6}], "hl": ["Cobertura sube de 48.0% a 56.6%.", "Ticket sube ₡59: de ₡1,739 a ₡1,798.", "Transacciones suben 1.3 puntos."], "note": "Falta cargar el sábado 14/11.", "team": "Sube en cobertura y ticket"}, "UCR Derecho": {"w": [{"t": 1073, "mt": 3250, "v": 2387590, "mv": 2441383, "k": 2225, "mk": 2200, "cob": 21.5}, {"t": 995, "mt": 3250, "v": 2222970, "mv": 2544336, "k": 2234, "mk": 2200, "cob": 19.9}], "hl": ["Ticket sobre la meta las dos semanas: ₡2,225 y ₡2,234.", "4 días con venta sobre la meta; lun 02/11 llegó a 122.4%.", "Venta de la semana 1 en 97.8% de la meta."], "note": "La meta de transacciones (650 por día) sale de 1,000 personas estimadas; con un cumplimiento de 31–33%, conviene revisar esa base.", "team": "Ticket en meta las 2 semanas"}};
+const DAILY = {"Amazon SJO11": [["lun 02/11", 112.3, 2092.0, 95.1, 111.8], ["mar 03/11", 113.0, 2150.0, 97.7, 115.6], ["mié 04/11", 122.0, 2101.0, 95.5, 122.1], ["jue 05/11", 117.0, 2231.0, 101.4, 124.4], ["vie 06/11", 93.6, 2022.0, 91.9, 90.2], ["lun 09/11", 90.5, 2220.0, 100.9, 95.6], ["mar 10/11", 90.0, 2405.0, 109.3, 103.1], ["mié 11/11", 101.1, 2310.0, 105.0, 111.3], ["jue 12/11", 90.9, 2264.0, 102.9, 98.0], ["vie 13/11", 77.7, 2120.0, 96.4, 78.5]], "Amazon SJO16": [["lun 02/11", 43.9, 2483.0, 112.9, 77.8], ["mar 03/11", 56.1, 2197.0, 99.8, 89.2], ["mié 04/11", 50.6, 2222.0, 101.0, 85.9], ["jue 05/11", 62.4, 2408.0, 109.4, 85.0], ["vie 06/11", 45.1, 2365.0, 107.5, 71.2], ["sáb 07/11", 47.4, 2047.0, 93.0, null], ["lun 09/11", 42.7, 2184.0, 99.3, 67.8], ["mar 10/11", 47.4, 2047.0, 93.0, 73.1], ["mié 11/11", 52.4, 2152.0, 97.8, 73.4], ["jue 12/11", 46.7, 2208.0, 100.4, 71.6], ["vie 13/11", 39.0, 2452.0, 111.5, 65.2]], "BAC": [["lun 02/11", 60.6, 2032.0, 96.8, 84.7], ["mar 03/11", 82.3, 1979.0, 94.2, 111.1], ["mié 04/11", 61.4, 1945.0, 92.6, 81.5], ["jue 05/11", 75.5, 1953.0, 93.0, 99.6], ["vie 06/11", 38.8, 2002.0, 95.3, 52.4], ["lun 09/11", 64.6, 2021.0, 96.2, 85.4], ["mar 10/11", 76.8, 2083.0, 99.2, 103.5], ["mié 11/11", 71.1, 2073.0, 98.7, 95.4], ["jue 12/11", 69.7, 2051.0, 97.6, 92.2]], "Amazon SJO19": [["lun 02/11", 114.9, 2178.0, 99.0, 76.1], ["mar 03/11", 244.1, 943.0, 42.9, 88.2], ["mié 04/11", 83.0, 2433.0, 110.6, 93.4], ["jue 05/11", 150.0, 2481.0, 112.8, 86.4], ["vie 06/11", 198.5, 1333.0, 60.6, 59.1], ["lun 09/11", 103.0, 2019.0, 91.8, 67.7], ["mar 10/11", 111.0, 2235.0, 101.6, 101.0], ["mié 11/11", 103.1, 2371.0, 107.8, 99.6], ["jue 12/11", 106.1, 2329.0, 105.9, 90.3], ["vie 13/11", 105.6, 2163.0, 98.3, 65.2]], "UCR Generales": [["lun 02/11", 83.4, 1751.0, 87.6, 73.0], ["mar 03/11", 83.0, 1812.0, 90.6, 74.2], ["mié 04/11", 68.9, 1783.0, 89.1, 59.8], ["jue 05/11", 85.1, 1673.0, 83.7, 67.9], ["vie 06/11", 68.9, 1625.0, 81.2, 52.4], ["sáb 07/11", 74.8, 2019.0, 101.0, 68.8], ["dom 08/11", null, null, null, null], ["lun 09/11", 87.0, 1688.0, 84.4, 66.7], ["mar 10/11", 85.1, 1758.0, 87.9, 66.5], ["mié 11/11", 64.1, 1974.0, 98.7, 55.0], ["jue 12/11", 79.7, 1821.0, 91.0, 61.1]], "Trimpot": [["lun 02/11", 99.7, 2194.0, 91.3, 91.1], ["mar 03/11", 98.1, 2236.0, 93.1, 90.9], ["mié 04/11", 98.1, 2264.0, 94.2, 91.6], ["jue 05/11", 102.0, 3899.0, 162.2, 163.4], ["vie 06/11", 103.6, 2256.0, 93.9, 96.0], ["sáb 07/11", 96.5, 2244.0, 93.4, 88.7], ["lun 09/11", 114.8, 1941.0, 80.8, 91.1], ["mar 10/11", 100.9, 2121.0, 88.3, 87.1], ["mié 11/11", 103.9, 2228.0, 92.7, 93.3], ["jue 12/11", 108.8, 2682.0, 111.6, 117.1], ["vie 13/11", 102.9, 2383.0, 99.2, 98.4], ["sáb 14/11", 128.7, 2190.0, 91.1, 112.9]], "Amazon SJO10": [["lun 02/11", 91.3, 2067.0, 94.0, 89.3], ["mar 03/11", 79.7, 1960.0, 89.1, 81.1], ["mié 04/11", 79.2, 1956.0, 88.9, 77.7], ["jue 05/11", 118.1, 2035.0, 92.5, 86.6], ["vie 06/11", 80.9, 2030.0, 92.3, 71.7], ["lun 09/11", 79.6, 2142.0, 97.3, 77.3], ["mar 10/11", 77.6, 2280.0, 103.7, 89.6], ["mié 11/11", 75.0, 2120.0, 96.4, 85.6], ["jue 12/11", 84.3, 2034.0, 92.5, 83.1], ["vie 13/11", 88.9, 2087.0, 94.9, 75.7]], "Eaton": [["lun 02/11", 98.6, 2353.0, 98.8, 97.3], ["mar 03/11", 103.4, 2384.0, 100.1, 103.3], ["mié 04/11", 101.0, 2300.0, 96.6, 97.4], ["jue 05/11", 102.9, 2593.0, 108.9, 111.7], ["vie 06/11", 93.3, 2170.0, 91.1, 84.7], ["sáb 07/11", 98.5, 2553.0, 107.2, 104.4], ["lun 09/11", 99.5, 2316.0, 97.3, 95.6], ["mar 10/11", 104.3, 2438.0, 102.4, 105.2], ["mié 11/11", 105.3, 2249.0, 94.4, 97.9], ["jue 12/11", 104.6, 2260.0, 94.9, 97.6], ["vie 13/11", 66.7, 1476.0, 62.0, 40.6], ["sáb 14/11", 147.1, 2600.0, 109.2, 150.0]], "UCR Derecho": [["lun 02/11", 36.8, 2478.0, 112.6, 122.4], ["mar 03/11", 37.4, 2130.0, 96.8, 106.9], ["mié 04/11", 21.5, 2083.0, 94.7, 60.2], ["jue 05/11", 39.7, 2173.0, 98.8, 113.3], ["vie 06/11", 29.7, 2205.0, 100.2, 86.0], ["lun 09/11", 32.6, 2249.0, 102.2, 95.5], ["mar 10/11", 34.5, 1991.0, 90.5, 89.1], ["mié 11/11", 18.8, 2448.0, 111.3, 59.2], ["jue 12/11", 40.9, 2136.0, 97.1, 109.2], ["vie 13/11", 26.3, 2536.0, 115.3, 83.3]], "Eagle": [["lun 02/11", 90.5, 2298.0, 104.5, 81.8], ["mar 03/11", 82.7, 2295.0, 104.3, 116.8], ["mié 04/11", 78.7, 2284.0, 103.8, 110.6], ["jue 05/11", 79.0, 2279.0, 103.6, 110.8], ["vie 06/11", 69.7, 2497.0, 113.5, 107.1], ["lun 09/11", 74.3, 2322.0, 105.6, 106.3], ["mar 10/11", 74.3, 2254.0, 102.5, 103.1], ["mié 11/11", 76.0, 2227.0, 101.2, 104.2], ["jue 12/11", 82.3, 2248.0, 102.2, 113.9], ["vie 13/11", 62.2, 2173.0, 98.8, 74.9]], "Align": [["lun 02/11", 92.6, 1859, 86.5, 80.1], ["mar 03/11", 99.3, 1809, 84.1, 82.8], ["mié 04/11", 103.0, 1955, 90.9, 91.9], ["jue 05/11", 101.4, 1884, 87.6, 86.9], ["vie 06/11", 98.6, 1944, 90.4, 86.4], ["sáb 07/11", 85.8, 1921, 89.4, 73.8], ["lun 09/11", 86.8, 2046, 95.2, 79.3], ["mar 10/11", 100.7, 1916, 89.1, 85.0], ["mié 11/11", 100.9, 2004, 93.2, 88.2], ["jue 12/11", 100.0, 1921, 89.3, 83.1], ["vie 13/11", 95.6, 1832, 85.2, 74.7]], "AbbVie": [["lun 02/11", 100.9, 2261, 95.4, 96.2], ["mar 03/11", 109.1, 2164, 91.3, 99.4], ["mié 04/11", 112.0, 2334, 98.5, 110.1], ["jue 05/11", 104.9, 2168, 91.5, 95.7], ["vie 06/11", 92.5, 2303, 97.2, 89.5], ["sáb 07/11", 118.5, 2132, 90.0, 105.5], ["lun 09/11", 104.5, 2157, 91.0, 94.1], ["mar 10/11", 108.2, 2300, 97.1, 103.5], ["mié 11/11", 89.5, 2630, 111.0, 98.0], ["jue 12/11", 101.2, 2374, 100.2, 99.8], ["vie 13/11", 95.1, 2108, 88.9, 83.3], ["sáb 14/11", 123.5, 2082, 87.9, 105.4]]};
+const NOTES = [{"t": "Datos pendientes de carga al corte (17/11, 7:00 a.m.)", "items": ["<b>Registro Nacional</b>: la hoja NOVIEMBRE 2026 todavía no tiene datos.", "<b>BAC</b>: viernes 13/11.", "<b>Align</b> y <b>UCR Generales</b>: sábado 14/11."]}, {"t": "Días atípicos que conviene confirmar", "items": ["<b>Trimpot</b>, jue 05/11: ticket de ₡3,899 y venta 163% de la meta (¿pedido o evento especial?).", "<b>Amazon SJO19</b>, 03/11 y 06/11: muchas transacciones con ticket de ₡943 y ₡1,333 (¿digitación?).", "<b>Eaton</b>, vie 13/11: venta 40.6% de la meta y ticket ₡1,476; al día siguiente el sábado vendió 150%."]}, {"t": "Ajustes de formato en las hojas", "items": ["<b>Amazon SJO16</b>: el título dice «732» y el sábado 07/11 (marcado «NO abre») repite los datos del martes 10/11.", "<b>BAC</b>: el domingo 01/11 y los fines de semana desde el 21/11 están marcados «SÍ abre», lo que afecta los días y la meta diaria.", "<b>UCR Derecho</b>: la meta de 650 transacciones por día sale de 1,000 personas estimadas; vale la pena revisar esa base.", "En <b>Align, AbbVie, Eaton y Trimpot</b> la cobertura pasa de 100% porque las personas son un estimado bajo: ahí se mide por la meta de transacciones."]}];
+const NAMES = Object.keys(OPS);
+const fmt = n => n.toLocaleString('en-US');
+const col = v => v>=100?'g':(v>=95?'n':'b');
+const colHex = {g:'#548235',n:'#C9A400',b:'#2E75B6'};
 
-// TOP KPIs
-document.getElementById('topKpis').innerHTML = `
-  <div class="top-kpi gold"><div class="lbl">Ventas Grupo Mayo</div><div class="val">${fmt(D.total_grupo)}</div></div>
-  <div class="top-kpi teal"><div class="lbl">Ahorro Potencial Proveedores</div><div class="val">${fmt(D.total_ahorro_proveedores)}</div></div>
-  <div class="top-kpi red"><div class="lbl">Productos sin rotación (a eliminar)</div><div class="val">${fmt(D.total_elim_grupo)}</div></div>
-  <div class="top-kpi"><div class="lbl">Oportunidad Total Identificada</div><div class="val">${fmt(D.total_ahorro_proveedores + D.total_elim_grupo)}</div></div>
-`;
+const CAMINOS = [
+ {id:'cob', n:'CAMINO 1', t:'Cobertura', s:'Clientes ÷ personas en el site', key:w=>w.cob, unit:'%', goal:65, cap:110,
+  only:n=>OPS[n].w[0].cob!=null},
+ {id:'tra', n:'CAMINO 2', t:'Transacciones', s:'Clientes vs. meta', key:w=>Math.round(1000*w.t/w.mt)/10, unit:'%', goal:100, cap:160},
+ {id:'tic', n:'CAMINO 3', t:'Ticket promedio', s:'₡ por cliente vs. meta', key:w=>Math.round(1000*w.k/w.mk)/10, unit:'%', goal:100, cap:115, min:70},
+ {id:'ven', n:'CAMINO 4', t:'Venta diaria', s:'Venta vs. meta del día', key:w=>Math.round(1000*w.v/w.mv)/10, unit:'%', goal:100, cap:120},
+];
+let cam = 1, week = 1, sel = 'Amazon SJO11';
 
-// NAV
-const nav = document.getElementById('navWrap');
-nav.innerHTML = `<div class="nav-btn active" data-tab="resumen">📊 Resumen Grupo</div>` +
-  D.ops.map(o=>`<div class="nav-btn" data-tab="${o.op}">${o.emoji} ${o.op}</div>`).join('');
+// ---------- KPIs ----------
+function team(w){let T=0,MT=0,V=0,MV=0;NAMES.forEach(n=>{const x=OPS[n].w[w];T+=x.t;MT+=x.mt;V+=x.v;MV+=x.mv});return{T,MT,V,MV,tk:V/T}}
+const S1=team(0),S2=team(1);
+const upTicket = NAMES.filter(n=>OPS[n].w[1].k>OPS[n].w[0].k).length;
+let winsT=0,winsK=0,winsV=0,daysAll=0;
+NAMES.forEach(n=>DAILY[n].forEach(r=>{daysAll++;if(r[1]>=100)winsT++;if(r[3]>=100)winsK++;if(r[4]>=100)winsV++;}));
+const stars = NAMES.filter(n=>[1,2,3].some(c=>OPS[n].w.every(w=>CAMINOS[c].key(w)>=100)));
+const kpis = [
+ {c:'',big:S1.T+S2.T, lbl:'<b>clientes atendidos</b> entre las 12 operaciones en dos semanas'},
+ {c:'v',big:'₡'+fmt(Math.round(S2.tk)), lbl:`<b>ticket del grupo</b> en la semana 2 <span class="pill up">▲ ₡${Math.round(S2.tk-S1.tk)} vs. semana 1</span>`},
+ {c:'v',big:upTicket+' de 12', lbl:'<b>operaciones subieron su ticket</b> de la semana 1 a la 2'},
+ {c:'y',big:winsT+winsK+winsV, lbl:`<b>días ganados</b>: ${winsT} en transacciones, ${winsK} en ticket y ${winsV} en venta`},
+ {c:'v',big:stars.length, lbl:'<b>operaciones sobre la meta las dos semanas</b> en al menos un camino'},
+];
+document.getElementById('kpis').innerHTML = kpis.map((k,i)=>`<div class="kpi ${k.c}"><div class="big" data-count="${typeof k.big==='number'?k.big:''}">${typeof k.big==='number'?'0':k.big}</div><div class="lbl">${k.lbl}</div></div>`).join('');
+document.querySelectorAll('[data-count]').forEach(el=>{const target=+el.dataset.count;if(!target)return;let s=null;const step=t=>{if(!s)s=t;const p=Math.min((t-s)/1200,1);el.textContent=fmt(Math.round(target*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
 
-function recomForOp(o){
-  const lines = [];
-  const top3 = o.ess.slice(0,3).map(p=>p['Nombre Artículo']).join(', ');
-  lines.push({t:'g', txt:`<strong>Garantizar disponibilidad de los ${o.ess_count} productos esenciales</strong>, que representan el ${fmtP(o.ess_pct)} del ingreso (${fmt(o.ess_monto)}). Cualquier quiebre de stock en los top 3 (${top3}) impacta directamente la caja.`});
-  if(o.elim_count > 0){
-    const elim5 = o.elim.slice(0,3).map(p=>p['Nombre Artículo']).join(', ');
-    lines.push({t:'r', txt:`<strong>Descontinuar o revisar los ${o.elim_count} productos con baja rotación</strong> que suman ${fmt(o.elim_monto)} en ventas. Liberan espacio, simplifica la operación y reduce mermas. Ejemplos: ${elim5}.`});
-  }
-  lines.push({t:'b', txt:`<strong>Revisar el costo de los insumos vinculados a los productos esenciales</strong>. Cruzar contra el análisis de proveedores: si estos insumos se compran a 2+ proveedores, negociar precio o consolidar con el proveedor más barato.`});
-  lines.push({t:'y', txt:`<strong>Medir ticket promedio</strong>: con el 80% del ingreso concentrado en ${o.ess_count} productos, una suba de precio del 3-5% en los esenciales equivale a ~${fmt(o.ess_monto*0.04)} adicionales al mes sin cambiar volumen.`});
-  return lines;
+// ---------- CAMINOS ----------
+function camStatus(c){
+  const C=CAMINOS[c]; const list=NAMES.filter(n=>!C.only||C.only(n));
+  const ok=list.filter(n=>C.key(OPS[n].w[1])>=C.goal).length;
+  return `${ok} de ${list.length} sobre la meta en semana 2`;
 }
-
-function renderResumen(){
-  const sorted = [...D.ops].sort((a,b)=>b.ventas-a.ventas);
-  return `
-  <div class="summary-grid">
-    <div class="s-card">
-      <h3>📊 Ventas por Operación</h3><div class="sub">Ranking mayo 2026</div>
-      ${sorted.map((o,i)=>{
-        const pct=o.ventas/D.total_grupo*100;
-        return `<div style="margin-bottom:9px;">
-          <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:2px;">
-            <span><strong>${i+1}. ${o.emoji} ${o.op}</strong></span><span>${fmt(o.ventas)}</span>
-          </div>
-          <div style="background:#EEF1F6;border-radius:4px;height:16px;position:relative;overflow:hidden;">
-            <div style="height:100%;width:${pct/sorted[0].ventas*sorted[0].ventas/sorted[0].ventas*100}%;background:linear-gradient(90deg,var(--navy2),var(--teal));border-radius:4px;width:${o.ventas/sorted[0].ventas*100}%"></div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-    <div class="s-card">
-      <h3>⭐ Productos Esenciales por Cafetería</h3><div class="sub">Cantidad que genera el 80% del ingreso</div>
-      <table><thead><tr><th>Cafetería</th><th>Esenciales</th><th>% Ingreso</th><th>Monto</th></tr></thead><tbody>
-        ${sorted.map(o=>`<tr>
-          <td class="left">${o.emoji} ${o.op}</td>
-          <td><span class="pill b">${o.ess_count}</span></td>
-          <td>${fmtP(o.ess_pct)}</td>
-          <td class="left"><span class="pill g">${fmt(o.ess_monto)}</span></td>
-        </tr>`).join('')}
-      </tbody></table>
-    </div>
-    <div class="s-card">
-      <h3>🗑️ Impacto Productos Sin Rotación</h3><div class="sub">Lo que representan en ventas los candidatos a eliminar</div>
-      <table><thead><tr><th>Cafetería</th><th># Prods</th><th>Monto en ventas</th></tr></thead><tbody>
-        ${sorted.map(o=>`<tr>
-          <td class="left">${o.emoji} ${o.op}</td>
-          <td><span class="pill r">${o.elim_count}</span></td>
-          <td><span class="pill r">${fmt(o.elim_monto)}</span></td>
-        </tr>`).join('')}
-        <tr style="background:var(--red-bg);font-weight:700;">
-          <td class="left">TOTAL GRUPO</td>
-          <td>${D.ops.reduce((a,o)=>a+o.elim_count,0)}</td>
-          <td>${fmt(D.total_elim_grupo)}</td>
-        </tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="recom-box">
-    <h4>💰 Top 5 Insumos con Mayor Ahorro Potencial por Proveedor (Grupo)</h4>
-    ${D.top_ahorro_global.map((r,i)=>`
-      <div class="recom-item">
-        <div class="badge b">${i+1}</div>
-        <div><strong>${r.Insumo}</strong> — Mejor proveedor: <strong>${r.MejorProveedor}</strong> · Ahorro: <span style="color:var(--green);font-weight:700;">${fmt(r.AhorroPotencial)}</span></div>
-      </div>
-    `).join('')}
-    <div style="margin-top:14px;padding:10px 14px;background:var(--green-bg);border-radius:8px;font-size:0.85rem;color:var(--green);">
-      <strong>Ahorro potencial total si se consolida compra al mejor proveedor disponible: ${fmt(D.total_ahorro_proveedores)}</strong>
-       — representa el ${(D.total_ahorro_proveedores/D.gasto_comparable*100).toFixed(1)}% del gasto en insumos comparables del mes.
-    </div>
-  </div>
-  `;
+function drawCams(){
+  document.getElementById('camgrid').innerHTML = CAMINOS.map((C,i)=>`<button class="cam ${i===cam?'on':''}" data-c="${i}"><span class="n">${C.n}</span><span class="t">${C.t}</span><span class="s">${camStatus(i)}</span></button>`).join('');
+  document.querySelectorAll('.cam').forEach(b=>b.onclick=()=>{cam=+b.dataset.c;drawAll()});
 }
-
-function renderOp(o){
-  const recom = recomForOp(o);
-  return `
-  <div class="op-header">
-    <div>
-      <h2>${o.emoji} ${o.op}</h2>
-      <div style="color:#B0C4DE;font-size:0.85rem;margin-top:4px;">${o.num_prods} productos vendidos en mayo 2026</div>
-    </div>
-    <div class="op-kpis">
-      <div class="op-kpi gold"><div class="k-lbl">Ventas totales</div><div class="k-val">${fmt(o.ventas)}</div></div>
-      <div class="op-kpi green-kpi"><div class="k-lbl">Esenciales (${o.ess_count} prods)</div><div class="k-val">${fmt(o.ess_monto)}</div></div>
-      <div class="op-kpi red-kpi"><div class="k-lbl">A eliminar (${o.elim_count} prods)</div><div class="k-val">${fmt(o.elim_monto)}</div></div>
-    </div>
-  </div>
-
-  <div class="opp-grid">
-    <div class="opp-box green-box">
-      <div class="opp-title">⭐ Oportunidad — Garantizar Esenciales</div>
-      <div class="opp-val">${fmt(o.ess_monto)}</div>
-      <div class="opp-desc">${o.ess_count} productos generan el ${fmtP(o.ess_pct)} del ingreso. Un quiebre de stock en cualquiera impacta directamente la venta del día.</div>
-    </div>
-    <div class="opp-box red-box">
-      <div class="opp-title">🗑️ Oportunidad — Eliminar Bajo Desempeño</div>
-      <div class="opp-val">${fmt(o.elim_monto)}</div>
-      <div class="opp-desc">${o.elim_count} productos representan menos del 15% del ingreso. Eliminarlos libera espacio, reduce merma y simplifica la operación.</div>
-    </div>
-    <div class="opp-box blue-box">
-      <div class="opp-title">📐 Margen por Precio Esenciales (+4%)</div>
-      <div class="opp-val">${fmt(o.ess_monto * 0.04)}</div>
-      <div class="opp-desc">Incremento mensual estimado si se aplica un ajuste del 4% sobre los precios de venta de los ${o.ess_count} productos esenciales.</div>
-    </div>
-  </div>
-
-  <div class="recom-box">
-    <h4>🎯 Recomendaciones para ${o.op}</h4>
-    ${recom.map(r=>`<div class="recom-item"><div class="badge ${r.t}">${r.t==='g'?'✓':r.t==='r'?'✕':r.t==='b'?'↗':'$'}</div><div>${r.txt}</div></div>`).join('')}
-  </div>
-
-  <div class="two-col">
-    <div class="tbl-wrap">
-      <h4 class="green">⭐ Top ${Math.min(10,o.ess.length)} Esenciales — Nunca Deben Faltar</h4>
-      <table>
-        <thead><tr><th>#</th><th>Producto</th><th>Cant.</th><th>Ingreso (₡)</th><th>% Ingreso</th></tr></thead>
-        <tbody>
-          ${o.ess.slice(0,10).map((r,i)=>`<tr>
-            <td>${i+1}</td><td class="left"><strong>${r['Nombre Artículo']}</strong></td>
-            <td>${fmtN(r.Cant)}</td>
-            <td><span class="pill g">${fmtN(r.Monto)}</span></td>
-            <td>${fmtP(r.PctIngreso*100)}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>
-    <div class="tbl-wrap">
-      <h4 class="red">🗑️ Top ${Math.min(15,o.elim.length)} Candidatos a Eliminar</h4>
-      <table>
-        <thead><tr><th>#</th><th>Producto</th><th>Cant.</th><th>Ingreso (₡)</th></tr></thead>
-        <tbody>
-          ${o.elim.slice(0,15).map((r,i)=>`<tr>
-            <td>${i+1}</td><td class="left">${r['Nombre Artículo']}</td>
-            <td>${fmtN(r.Cant)}</td>
-            <td><span class="pill r">${fmtN(r.Monto)}</span></td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>
-  </div>
-  `;
+function drawChart(){
+  const C=CAMINOS[cam]; const list=NAMES.filter(n=>!C.only||C.only(n));
+  const min=C.min||0, span=C.cap-min;
+  const pos=v=>Math.max(0,Math.min(100,(v-min)/span*100));
+  const rows=list.map(n=>{const a=C.key(OPS[n].w[0]),b=C.key(OPS[n].w[1]);return{n,a,b,v:week===0?a:(week===1?b:(a+b)/2)}}).sort((x,y)=>y.v-x.v);
+  let html='';
+  rows.forEach(r=>{
+    const both = r.a>=C.goal && r.b>=C.goal;
+    let fills='', valTxt;
+    if(week===2){
+      fills=`<div class="fill s1 ${col(r.a/C.goal*100)}" style="width:${pos(r.a)}%"></div><div class="fill s2 ${col(r.b/C.goal*100)}" style="width:${pos(r.b)}%"></div>`;
+      valTxt=`<span style="opacity:.6">${r.a.toFixed(0)}</span> → ${r.b.toFixed(0)}%`;
+    } else {
+      const v=week===0?r.a:r.b; fills=`<div class="fill ${col(v/C.goal*100)}" style="width:${pos(v)}%"></div>`; valTxt=v.toFixed(1)+'%';
+    }
+    const vc = col((week===0?r.a:r.b)/C.goal*100);
+    html+=`<div class="crow ${r.n===sel?'sel':''}" data-n="${r.n}" title="${r.n}: semana 1 ${r.a.toFixed(1)}% · semana 2 ${r.b.toFixed(1)}%"><div class="nm">${r.n}${both?'<span class="badge">2 sem</span>':''}</div><div class="track ${week===2?'dual':''}"><div class="goal" style="left:${pos(C.goal)}%"></div>${fills}</div><div class="val ${vc}">${valTxt}</div></div>`;
+  });
+  document.getElementById('chart').innerHTML=html;
+  document.querySelectorAll('.crow').forEach(r=>r.onclick=()=>{sel=r.dataset.n;drawChart();drawDetail()});
+  document.getElementById('legend').innerHTML = `<span><i style="background:#548235"></i>Sobre la meta</span><span><i style="background:#C9A400"></i>A un paso (95–99%)</span><span><i style="background:#2E75B6"></i>En camino</span><span><i style="border-top:2px dashed #1F4E79;height:0;width:16px"></i>Meta ${C.goal}%</span>${week===2?'<span>Barra clara = semana 1 · oscura = semana 2</span>':''}`;
+  document.getElementById('insight').innerHTML = INSIGHTS[C.id];
 }
+const INSIGHTS = {
+ cob:'<b>Amazon SJO19</b> superó la meta de cobertura (65%) las dos semanas: 99.6% y 68.7%. <b>Amazon SJO11</b> llegó a 69.8% en la semana 1. <b>BAC</b> y <b>UCR Generales</b> subieron su cobertura de la semana 1 a la 2 (41.4% → 45.9% y 48.0% → 56.6%).',
+ tra:'<b>AbbVie</b>, <b>Trimpot</b> y <b>Amazon SJO19</b> pasaron la meta de clientes <b>las dos semanas</b>. <b>Amazon SJO11</b> la superó con 111.6% en la semana 1, y <b>Eaton</b> (99.8% / 97.7%) y <b>Align</b> (98.7% / 96.8%) quedaron a un paso. <b>BAC</b> subió 6.8 puntos.',
+ tic:'El ticket es el camino que más creció: <b>8 de 12 operaciones</b> lo subieron en la semana 2. <b>Eagle</b>, <b>Amazon SJO16</b> y <b>UCR Derecho</b> estuvieron en su meta o arriba las dos semanas; <b>Amazon SJO11</b> (103.1%) y <b>Amazon SJO19</b> (101.6%) la cruzaron en la semana 2.',
+ ven:'<b>Eagle</b> superó la meta de venta las dos semanas (105.5% y 100.5%). <b>Amazon SJO11</b> (112.8%) y <b>Trimpot</b> (105.7%) la superaron en la semana 1. <b>BAC</b> pasó de 85.8% a 94.1%, y <b>Amazon SJO10</b> y <b>Amazon SJO19</b> también subieron.',
+};
 
-const renderers = {'resumen': renderResumen};
-D.ops.forEach(o=>{ renderers[o.op] = ()=>renderOp(o); });
-
-function showTab(name){
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
-  document.getElementById('app').innerHTML = renderers[name] ? renderers[name]() : '';
-  window.scrollTo(0,0);
+// ---------- DETALLE ----------
+function drawDetail(){
+  const o=OPS[sel], C=CAMINOS[cam], d=DAILY[sel];
+  const idx = cam===2?3:(cam===3?4:1);   // en cobertura muestra transacciones diarias
+  const lab = cam===2?'Ticket (% de la meta)':(cam===3?'Venta del día (% de la meta)':'Transacciones (% de la meta)');
+  const mx = Math.max(130, ...d.map(r=>r[idx]||0));
+  const bars = d.map(r=>{const v=r[idx]||0;return `<div class="d" style="height:${v/mx*100}%;background:${colHex[col(v)]}" data-t="${r[0]}: ${v.toFixed(1)}%${idx===3?' · ₡'+fmt(r[2]):''}"></div>`}).join('');
+  const xs = d.map(r=>`<span>${r[0].slice(4,6)}</span>`).join('');
+  const wT=d.filter(r=>r[1]>=100).length, wK=d.filter(r=>r[3]>=100).length, wV=d.filter(r=>r[4]>=100).length;
+  document.getElementById('detail').innerHTML = `
+   <h3>${sel}</h3><div class="hint">${lab} · ${d.length} días con datos (1–14 nov)</div>
+   <div class="mini"><div class="goal" style="bottom:${100/mx*100}%"><span>meta</span></div>${bars}</div>
+   <div class="minix">${xs}</div>
+   <div class="wins"><div><b>${wT}</b><small>días sobre meta de transacciones</small></div><div><b>${wK}</b><small>días con ticket sobre meta</small></div><div><b>${wV}</b><small>días con venta sobre meta</small></div></div>
+   <ul class="hl">${o.hl.map(h=>'<li>'+h+'</li>').join('')}</ul>
+   ${o.note?'<div class="note"><b>Para revisar:</b> '+o.note+'</div>':''}`;
 }
+document.querySelectorAll('#weekseg button').forEach(b=>b.onclick=()=>{week=+b.dataset.w;document.querySelectorAll('#weekseg button').forEach(x=>x.classList.toggle('on',x===b));drawChart()});
+function drawAll(){drawCams();drawChart();drawDetail()}
+drawAll();
 
-document.getElementById('navWrap').addEventListener('click', e=>{
-  const btn = e.target.closest('.nav-btn');
-  if(btn) showTab(btn.dataset.tab);
-});
+// ---------- CRECIMIENTO ----------
+const G = NAMES.map(n=>{const a=OPS[n].w[0],b=OPS[n].w[1];return{n,
+  dk:b.k-a.k, k2:b.k, mk:b.mk,
+  dt:100*b.t/b.mt-100*a.t/a.mt, dv:100*b.v/b.mv-100*a.v/a.mv, t2:100*b.t/b.mt, v2:100*b.v/b.mv}});
+const topK=[...G].sort((x,y)=>y.dk-x.dk);
+const pods=[
+ {m:'Mayor alza de ticket', o:topK.find(x=>x.n!=='Amazon SJO19'), f:x=>'+₡'+x.dk, s:x=>'₡'+fmt(x.k2-x.dk)+' → ₡'+fmt(x.k2)},
+ {m:'Mayor alza en venta vs. meta', o:[...G].sort((x,y)=>y.dv-x.dv)[0], f:x=>'+'+x.dv.toFixed(1)+' pts', s:x=>'llegó a '+x.v2.toFixed(1)+'% de su meta'},
+ {m:'Mayor alza en transacciones', o:[...G].sort((x,y)=>y.dt-x.dt)[0], f:x=>'+'+x.dt.toFixed(1)+' pts', s:x=>'llegó a '+x.t2.toFixed(1)+'% de su meta'},
+];
+document.getElementById('podium').innerHTML = pods.map(p=>`<div class="pod"><span class="medal">${p.m}</span><b>${p.o.n}</b><div class="gg">${p.f(p.o)}</div><div class="hint" style="font-size:13px;color:#595959">${p.s(p.o)}</div></div>`).join('');
+const cols=[
+ {h:'Operación',k:'n',f:x=>'<b>'+x.n+'</b>'},
+ {h:'Ticket semana 2',k:'k2',f:x=>'₡'+fmt(x.k2),c:'num'},
+ {h:'Meta ticket',k:'mk',f:x=>'₡'+fmt(x.mk),c:'num'},
+ {h:'Cambio de ticket',k:'dk',f:x=>(x.dk>0?'▲ +₡':'▼ ₡')+fmt(Math.abs(x.dk)),c:x=>'num '+(x.dk>0?'g':'r'),y:1},
+ {h:'Cambio transacciones (pts)',k:'dt',f:x=>(x.dt>0?'▲ +':'▼ ')+x.dt.toFixed(1),c:x=>'num '+(x.dt>0?'g':'r'),y:1},
+ {h:'Cambio venta (pts)',k:'dv',f:x=>(x.dv>0?'▲ +':'▼ ')+x.dv.toFixed(1),c:x=>'num '+(x.dv>0?'g':'r'),y:1},
+];
+let sortK='dk',sortD=-1;
+function drawTable(){
+  const rows=[...G].sort((a,b)=>sortK==='n'?a.n.localeCompare(b.n)*-sortD:(a[sortK]-b[sortK])*sortD);
+  document.getElementById('growthTable').innerHTML='<thead><tr>'+cols.map(c=>`<th class="${c.y?'y':''}" data-k="${c.k}" style="cursor:pointer">${c.h}${sortK===c.k?(sortD<0?' ▼':' ▲'):''}</th>`).join('')+'</tr></thead><tbody>'+
+   rows.map(x=>'<tr>'+cols.map(c=>`<td class="${typeof c.c==='function'?c.c(x):(c.c||'')}">${c.f(x)}</td>`).join('')+'</tr>').join('')+'</tbody>';
+  document.querySelectorAll('#growthTable th').forEach(th=>th.onclick=()=>{const k=th.dataset.k;sortD=(sortK===k)?-sortD:-1;sortK=k;drawTable()});
+}
+drawTable();
 
-showTab('resumen');
+// ---------- SOBRECUMPLIMIENTO ----------
+let wk=1;
+const winLabel={1:'transacciones',3:'ticket',4:'venta'};
+function drawWins(){
+  let total=0,all=0;
+  const rows=NAMES.map(n=>({n,d:DAILY[n],w:DAILY[n].filter(r=>r[wk]>=100).length})).sort((a,b)=>b.w-a.w);
+  const html=rows.map(r=>{total+=r.w;all+=r.d.length;return `<div style="display:grid;grid-template-columns:150px 1fr 60px;gap:10px;align-items:center;padding:4px 0"><b style="font-size:14px">${r.n}</b><div style="display:flex;gap:4px;flex-wrap:wrap">${r.d.map(x=>`<span title="${x[0]}: ${(x[wk]||0).toFixed(1)}%" style="width:26px;height:22px;border-radius:3px;background:${x[wk]>=100?'#548235':(x[wk]>=95?'#FFF2CC':'#EEF2F6')};border:1px solid ${x[wk]>=100?'#548235':'#D9D9D9'};display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:${x[wk]>=100?'#fff':'#595959'}">${x[0].slice(4,6)}</span>`).join('')}</div><span style="text-align:right;font-weight:700;color:#548235">${r.w} día${r.w===1?'':'s'}</span></div>`}).join('');
+  document.getElementById('wingrid').innerHTML=html+'<div class="legend" style="margin-top:10px"><span><i style="background:#548235"></i>Sobre la meta</span><span><i style="background:#FFF2CC;border:1px solid #D9D9D9"></i>A un paso (95–99%)</span><span><i style="background:#EEF2F6;border:1px solid #D9D9D9"></i>En camino</span></div>';
+  document.getElementById('wintotal').textContent=`${total} días-operación sobre la meta de ${winLabel[wk]} (de ${all} trabajados)`;
+}
+document.querySelectorAll('#winseg button').forEach(b=>b.onclick=()=>{wk=+b.dataset.k;document.querySelectorAll('#winseg button').forEach(x=>x.classList.toggle('on',x===b));drawWins()});
+drawWins();
+
+// ---------- EQUIPO ----------
+const pal=['#1F4E79','#2E75B6','#548235','#7F6000','#595959','#2E75B6','#1F4E79','#548235','#7F6000','#595959','#2E75B6','#548235'];
+const contrib=NAMES.map(n=>({n,t:OPS[n].w[0].t+OPS[n].w[1].t})).sort((a,b)=>b.t-a.t);
+const TT=contrib.reduce((s,x)=>s+x.t,0);
+document.getElementById('mosaic').innerHTML=contrib.map((x,i)=>`<div style="flex:${x.t};background:${pal[i%pal.length]}" data-n="${x.n}" data-t="${x.t}">${x.t/TT>.06?x.n.replace('Amazon ',''):''}</div>`).join('');
+document.querySelectorAll('#mosaic div').forEach(el=>{const show=()=>{document.getElementById('mosaicInfo').innerHTML=`<b style="color:#1F4E79">${el.dataset.n}</b> atendió <b>${fmt(+el.dataset.t)}</b> clientes: el ${(100*el.dataset.t/TT).toFixed(1)}% del total del grupo.`};el.onmouseenter=show;el.onclick=show});
+document.getElementById('teamInsight').innerHTML=`Entre todos atendimos <b>${fmt(TT)} clientes</b> en dos semanas. Con la mezcla de todas las operaciones, el <b>ticket del grupo subió de ₡${fmt(Math.round(S1.tk))} a ₡${fmt(Math.round(S2.tk))}</b>, y la venta del grupo llegó a <b>${(100*(S1.V+S2.V)/(S1.MV+S2.MV)).toFixed(1)}%</b> de la meta de los días trabajados. Lo que una operación no alcanza un día, otra lo empuja: el resultado es del equipo.`;
+document.getElementById('teamgrid').innerHTML=NAMES.map(n=>`<div class="tchip" data-n="${n}"><b>${n}</b><span>${OPS[n].team}</span></div>`).join('');
+document.querySelectorAll('.tchip').forEach(c=>c.onclick=()=>{sel=c.dataset.n;drawAll();document.getElementById('caminos').scrollIntoView()});
+
+// ---------- PARTICULARIDADES ----------
+document.getElementById('notes').innerHTML = NOTES.map((g,i)=>`<details ${i===0?'open':''}><summary>${g.t}</summary><ul>${g.items.map(x=>'<li>'+x+'</li>').join('')}</ul></details>`).join('');
 </script>
 </body>
 </html>
